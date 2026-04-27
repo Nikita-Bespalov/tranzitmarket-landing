@@ -180,22 +180,20 @@ export function WorksCarousel() {
           ...(isMobile ? {} : { aspectRatio: "16/8" }),
         }}
       >
-        {/* Video background */}
-        <video
-          key="case-bg"
-          autoPlay loop muted playsInline
-          src="/assets/warehouse/hero-bg.mp4"
-          style={{
-            position: "absolute", inset: 0, width: "100%", height: "100%",
-            objectFit: "cover", zIndex: 0,
-          }}
-        />
+        {/* Background */}
+        <div style={{
+          position: "absolute", inset: 0, zIndex: 0,
+          background: `
+            radial-gradient(ellipse 80% 60% at 70% 40%, rgba(207,166,74,.13), transparent 60%),
+            radial-gradient(ellipse 60% 80% at 20% 70%, rgba(207,166,74,.07), transparent 55%),
+            linear-gradient(135deg, #131316 0%, #0A0A0B 100%)`,
+        }}/>
         {/* Overlay */}
         <div style={{
           position: "absolute", inset: 0, zIndex: 1,
           background: isMobile
-            ? "linear-gradient(180deg, rgba(10,10,11,.55) 0%, rgba(10,10,11,.88) 60%)"
-            : "linear-gradient(135deg, rgba(10,10,11,.88) 0%, rgba(10,10,11,.45) 50%, rgba(10,10,11,.80) 100%)",
+            ? "linear-gradient(180deg, transparent 0%, rgba(10,10,11,.75) 55%)"
+            : "linear-gradient(135deg, rgba(10,10,11,.6) 0%, transparent 50%, rgba(10,10,11,.55) 100%)",
         }}/>
 
         {/* Dot nav */}
