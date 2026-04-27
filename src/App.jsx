@@ -1,0 +1,68 @@
+import { useState, useEffect } from 'react';
+import { Nav } from './components/Nav';
+import { OfferBanner, Hero, MarketplaceStrip, PromiseBand } from './components/Hero';
+import { Benefits, StatsBand, Services } from './components/Benefits';
+import { Warehouses, AboutTeam, WorksCarousel } from './components/Warehouses';
+import { Clients } from './components/Clients';
+import { Contacts, Footer } from './components/Contacts';
+import './tokens.css';
+
+const DEFAULTS = {
+  accentMode: "warm-gold",
+  showStatsBand: true,
+  showWorks: true,
+};
+
+function App() {
+  const [tweaks] = useState(DEFAULTS);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const palettes = {
+      "warm-gold": { g200: "#E8CF82", g400: "#CFA64A", g500: "#C1963C", g600: "#A87E2C" },
+      "champagne": { g200: "#F0DEAA", g400: "#D9BD6E", g500: "#C9A953", g600: "#9F8235" },
+      "rose-gold": { g200: "#F0C9A8", g400: "#D9986A", g500: "#C28456", g600: "#9C6638" },
+      "platinum":  { g200: "#E2E2E6", g400: "#B8B8C0", g500: "#9C9CA6", g600: "#74747F" },
+    };
+    const p = palettes[tweaks.accentMode] || palettes["warm-gold"];
+    root.style.setProperty("--gold-200", p.g200);
+    root.style.setProperty("--gold-400", p.g400);
+    root.style.setProperty("--gold-500", p.g500);
+    root.style.setProperty("--gold-600", p.g600);
+    root.style.setProperty("--gold-gradient",
+      `linear-gradient(135deg, ${p.g200} 0%, ${p.g400} 40%, ${p.g600} 100%)`);
+  }, [tweaks.accentMode]);
+
+  return (
+    <div>
+      <Nav />
+      <OfferBanner />
+      <Hero />
+      <MarketplaceStrip />
+      <PromiseBand />
+      <Benefits />
+      {tweaks.showStatsBand && <StatsBand />}
+      <Services />
+      <Warehouses />
+      <AboutTeam />
+      <Clients />
+      {tweaks.showWorks && <WorksCarousel />}
+      <Contacts />
+      <Footer />
+
+      <div className="fab-stack">
+        <a href="#" className="fab" title="MAX">
+          <img src="/assets/icon-max.png" alt="MAX" className="sq" />
+        </a>
+        <a href="#" className="fab" title="Telegram">
+          <img src="/assets/icon-telegram.png" alt="Telegram" />
+        </a>
+        <a href="#" className="fab" title="WhatsApp">
+          <img src="/assets/icon-whatsapp.png" alt="WhatsApp" />
+        </a>
+      </div>
+    </div>
+  );
+}
+
+export default App;
