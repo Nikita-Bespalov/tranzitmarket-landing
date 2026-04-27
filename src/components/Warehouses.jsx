@@ -10,13 +10,13 @@ const cBtn = {
 
 export function Warehouses() {
   const items = [
-    { label: "Приёмка", tone: "warehouse", aspect: "3/4", chip: "Приёмка" },
-    { label: "Маркировка", tone: "boxes", aspect: "3/4", chip: "Маркировка" },
-    { label: "Хранение", tone: "rack", aspect: "3/4", chip: "Менеджеры" },
-    { label: "Сортировка", tone: "warehouse", aspect: "3/4", chip: "Сортировка" },
-    { label: "Палеты", tone: "rack", aspect: "16/10", chip: "Палеты" },
-    { label: "Отгрузка", tone: "boxes", aspect: "16/10", chip: "Отгрузка" },
-    { label: "Упаковка", tone: "warehouse", aspect: "16/10", chip: "Упаковка" },
+    { label: "Приёмка", tone: "warehouse", aspect: "3/4", chip: "Приёмка", src: "/assets/warehouse/warehouse-receiving.jpeg" },
+    { label: "Маркировка", tone: "boxes", aspect: "3/4", chip: "Маркировка", src: "/assets/warehouse/packages-labeled.webp" },
+    { label: "Хранение", tone: "rack", aspect: "3/4", chip: "Хранение", src: "/assets/warehouse/warehouse-storage.jpeg" },
+    { label: "Сортировка", tone: "warehouse", aspect: "3/4", chip: "Сортировка", src: "/assets/warehouse/truck-sorted.webp" },
+    { label: "Палеты", tone: "rack", aspect: "16/10", chip: "Палеты", src: "/assets/warehouse/pallets-wrapped.jpeg" },
+    { label: "Отгрузка", tone: "boxes", aspect: "16/10", chip: "Отгрузка", src: "/assets/warehouse/ozon-delivery.jpeg" },
+    { label: "Упаковка", tone: "warehouse", aspect: "16/10", chip: "Упаковка", src: "/assets/warehouse/truck-furniture.webp" },
   ];
   return (
     <Section pad="default">

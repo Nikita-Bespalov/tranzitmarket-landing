@@ -80,7 +80,7 @@ export function Breadcrumb({ items }) {
   );
 }
 
-export function Photo({ label="фото", aspect="4/3", tone="warehouse", style={}, children, chip }) {
+export function Photo({ label="фото", aspect="4/3", tone="warehouse", style={}, children, chip, src }) {
   const tones = {
     warehouse: `linear-gradient(135deg, rgba(207,166,74,.12), rgba(10,10,11,.88)),
       repeating-linear-gradient(45deg, rgba(255,255,255,.03) 0 14px, transparent 14px 28px),
@@ -103,15 +103,23 @@ export function Photo({ label="фото", aspect="4/3", tone="warehouse", style=
       display: "flex", alignItems: "center", justifyContent: "center",
       ...style,
     }}>
+      {src && (
+        <img src={src} alt={label} style={{
+          position: "absolute", inset: 0, width: "100%", height: "100%",
+          objectFit: "cover", display: "block",
+        }}/>
+      )}
       {children}
-      <span style={{
-        fontFamily: "JetBrains Mono, monospace", fontSize: 10,
-        letterSpacing: "0.18em", textTransform: "uppercase",
-        color: "rgba(207,166,74,.7)",
-        padding: "5px 12px",
-        border: "1px solid rgba(207,166,74,.25)",
-        borderRadius: 999,
-      }}>{label}</span>
+      {!src && (
+        <span style={{
+          fontFamily: "JetBrains Mono, monospace", fontSize: 10,
+          letterSpacing: "0.18em", textTransform: "uppercase",
+          color: "rgba(207,166,74,.7)",
+          padding: "5px 12px",
+          border: "1px solid rgba(207,166,74,.25)",
+          borderRadius: 999,
+        }}>{label}</span>
+      )}
       {chip && (
         <span style={{
           position: "absolute", left: 14, bottom: 14,

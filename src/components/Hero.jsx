@@ -83,25 +83,26 @@ export function Hero() {
           <div style={{ marginBottom: 20 }}><Eyebrow>Полный цикл фулфилмента</Eyebrow></div>
           <h1 style={{
             fontFamily: "Manrope, sans-serif",
-            fontSize: "clamp(44px, 5.4vw, 84px)",
-            fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 0.98,
+            fontSize: "clamp(36px, 4.6vw, 72px)",
+            fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.02,
             margin: 0, color: "#fff",
           }}>
-            О&nbsp;компании <span style={{
+            Фулфилмент в Пензе и области для{" "}
+            <span style={{
               backgroundImage: "var(--gold-gradient)",
               WebkitBackgroundClip: "text", backgroundClip: "text",
               WebkitTextFillColor: "transparent",
               letterSpacing: "-0.02em",
-            }}>ТРАНЗИТМАРКЕТ</span>
+            }}>маркетплейсов</span>{" "}
+            и интернет-магазинов от хх руб
           </h1>
           <p style={{ fontSize: 18.5, lineHeight: 1.55, color: "var(--fg-2)", marginTop: 28, maxWidth: 540 }}>
-            ТРАНЗИТМАРКЕТ — это полный цикл фулфилмента для{" "}
-            <strong style={{ color: "#fff", fontWeight: 600 }}>Wildberries, Ozon, Яндекс.Маркет</strong>,
-            других маркетплейсов и интернет-магазинов.
+            Упакуем и доставим Ваш товар на склад маркетплейса за{" "}
+            <strong style={{ color: "#fff", fontWeight: 600 }}>48 часов под ключ</strong>.
           </p>
           <p style={{ fontSize: 16, lineHeight: 1.7, color: "var(--fg-3)", marginTop: 18, maxWidth: 540 }}>
-            Мы делаем работу предпринимателей с онлайн-платформами максимально простой
-            и эффективной — берём на себя все организационные и рутинные задачи.
+            Берём на себя все этапы — от приёмки и маркировки до упаковки и отгрузки на{" "}
+            Wildberries, Ozon, Яндекс.Маркет и другие платформы.
           </p>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 36 }}>
             <Button size="lg" icon={<Ic.arrow/>} as="a" href="#contact">Получить расчёт</Button>
@@ -128,31 +129,12 @@ export function Hero() {
             border: "1px solid var(--border-2)",
             boxShadow: "0 30px 80px -20px rgba(0,0,0,.7), 0 0 0 1px rgba(207,166,74,.08)",
           }}>
-            <Photo aspect="4/5" tone="warehouse" label="Загрузка фургона">
-              <svg viewBox="0 0 400 500" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.55 }}>
-                <defs>
-                  <linearGradient id="hgGold" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#E8CF82"/>
-                    <stop offset="60%" stopColor="#CFA64A"/>
-                    <stop offset="100%" stopColor="#A87E2C"/>
-                  </linearGradient>
-                </defs>
-                <rect x="60" y="120" width="280" height="280" rx="6" fill="rgba(0,0,0,.5)"/>
-                <rect x="80" y="140" width="240" height="240" rx="4" fill="url(#hgGold)" opacity="0.18"/>
-                {[
-                  [110,180,70,90], [200,180,60,90], [280,180,40,90],
-                  [110,290,80,90], [210,300,90,80],
-                ].map(([x,y,w,h], i) => (
-                  <g key={i}>
-                    <rect x={x} y={y} width={w} height={h} rx="3"
-                      fill={`rgba(207,166,74,${0.20 + (i%3)*0.08})`}
-                      stroke="rgba(207,166,74,.4)" strokeWidth="1"/>
-                    <line x1={x+w/2} y1={y} x2={x+w/2} y2={y+h} stroke="rgba(0,0,0,.35)" strokeWidth="1"/>
-                  </g>
-                ))}
-                <ellipse cx="120" cy="135" rx="22" ry="5" fill="#FBF4DF" opacity="0.5"/>
-                <ellipse cx="280" cy="135" rx="22" ry="5" fill="#FBF4DF" opacity="0.5"/>
-              </svg>
+            <Photo aspect="4/5" tone="warehouse" label="Склад ТРАНЗИТМАРКЕТ"
+              src="/assets/warehouse/warehouse-main.jpeg">
+              <div style={{
+                position: "absolute", inset: 0,
+                background: "linear-gradient(to top, rgba(10,10,11,.55) 0%, rgba(10,10,11,.1) 50%, transparent 100%)",
+              }}/>
             </Photo>
             <div style={{
               position: "absolute", top: 18, left: 18,
