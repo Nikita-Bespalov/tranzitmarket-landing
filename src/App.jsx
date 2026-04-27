@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Nav } from './components/Nav';
 import { OfferBanner, Hero, MarketplaceStrip, PromiseBand } from './components/Hero';
 import { Benefits, StatsBand, Services } from './components/Benefits';
@@ -15,6 +15,31 @@ const DEFAULTS = {
 
 function App() {
   const [tweaks] = useState(DEFAULTS);
+  const heroWrapRef = useRef(null);
+  const heroVideoRef = useRef(null);
+
+  useEffect(() => {
+    const video = heroVideoRef.current;
+    const wrap  = heroWrapRef.current;
+    if (!video || !wrap) return;
+    let onScroll = null;
+    const init = () => {
+      const dur = video.duration;
+      onScroll = () => {
+        const top = wrap.getBoundingClientRect().top + window.scrollY;
+        const progress = Math.max(0, Math.min(1, (window.scrollY - top) / wrap.offsetHeight));
+        video.currentTime = progress * dur;
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    };
+    if (video.readyState >= 1) init();
+    else video.addEventListener('loadedmetadata', init, { once: true });
+    return () => {
+      video.removeEventListener('loadedmetadata', init);
+      if (onScroll) window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -36,8 +61,21 @@ function App() {
   return (
     <div>
       <Nav />
-      <OfferBanner />
-      <Hero />
+      {/* ── Video-backed block: OfferBanner + Hero ── */}
+      <div ref={heroWrapRef} style={{ position: "relative", overflow: "hidden" }}>
+        <video ref={heroVideoRef} muted playsInline preload="auto"
+          src="/assets/warehouse/hero-bg.mp4"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
+        />
+        <div style={{
+          position: "absolute", inset: 0, zIndex: 1,
+          background: "linear-gradient(135deg, rgba(10,10,11,.82) 0%, rgba(10,10,11,.60) 55%, rgba(10,10,11,.74) 100%)",
+        }}/>
+        <div style={{ position: "relative", zIndex: 2 }}>
+          <OfferBanner />
+          <Hero />
+        </div>
+      </div>
       <MarketplaceStrip />
       <PromiseBand />
       <Benefits />

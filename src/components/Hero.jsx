@@ -65,72 +65,15 @@ export function OfferBanner() {
 }
 
 export function Hero() {
-  const sectionRef = React.useRef(null);
-  const videoRef = React.useRef(null);
-
-  React.useEffect(() => {
-    const video = videoRef.current;
-    const section = sectionRef.current;
-    if (!video || !section) return;
-
-    let onScroll = null;
-
-    const init = () => {
-      const duration = video.duration;
-      onScroll = () => {
-        const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-        const sectionH = section.offsetHeight;
-        const progress = Math.max(0, Math.min(1, (window.scrollY - sectionTop) / sectionH));
-        video.currentTime = progress * duration;
-      };
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
-    };
-
-    if (video.readyState >= 1) {
-      init();
-    } else {
-      video.addEventListener('loadedmetadata', init, { once: true });
-    }
-
-    return () => {
-      video.removeEventListener('loadedmetadata', init);
-      if (onScroll) window.removeEventListener('scroll', onScroll);
-    };
-  }, []);
-
   return (
     <section
       id="top"
-      ref={sectionRef}
       style={{
         padding: "clamp(40px, 5vw, 72px) 28px clamp(72px, 9vw, 128px) 28px",
         position: "relative",
-        overflow: "hidden",
       }}
     >
-      {/* ── Scroll-scrubbed video background ── */}
-      <video
-        ref={videoRef}
-        muted
-        playsInline
-        preload="auto"
-        src="/assets/warehouse/hero-bg.mp4"
-        style={{
-          position: "absolute", inset: 0,
-          width: "100%", height: "100%",
-          objectFit: "cover",
-          zIndex: 0,
-        }}
-      />
-      {/* ── Dark overlay ── */}
-      <div style={{
-        position: "absolute", inset: 0, zIndex: 1,
-        background: "linear-gradient(135deg, rgba(10,10,11,.82) 0%, rgba(10,10,11,.60) 55%, rgba(10,10,11,.74) 100%)",
-      }}/>
-
-      {/* ── Content ── */}
-      <div style={{ maxWidth: 1280, margin: "0 auto", position: "relative", zIndex: 2 }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto", position: "relative" }}>
         <div aria-hidden style={{
           position: "absolute", inset: "-100px -100px auto -100px", height: 600, pointerEvents: "none",
           background: "radial-gradient(800px 480px at 30% 30%, rgba(207,166,74,.14), transparent 60%)",
