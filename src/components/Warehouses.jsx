@@ -1,5 +1,6 @@
 import React from 'react';
 import { Section, Eyebrow, Photo, Ic, Button } from './Primitives';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const cBtn = {
   width: 48, height: 48, borderRadius: 999,
@@ -9,6 +10,7 @@ const cBtn = {
 };
 
 export function Warehouses() {
+  const isMobile = useIsMobile();
   const items = [
     { label: "Приёмка", tone: "warehouse", aspect: "3/4", chip: "Приёмка", src: "/assets/warehouse/warehouse-receiving.jpeg" },
     { label: "Маркировка", tone: "boxes", aspect: "3/4", chip: "Маркировка", src: "/assets/warehouse/packages-labeled.webp" },
@@ -32,11 +34,11 @@ export function Warehouses() {
           Расположение наших складов позволяет моментально отгружать товар на Wildberries и Ozon. Открыты для визита по записи.
         </p>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, marginBottom: 14 }}>
-        {items.slice(0,4).map((it, i) => <Photo key={i} {...it}/>)}
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)", gap: 14, marginBottom: 14 }}>
+        {items.slice(0,4).map((it, i) => <Photo key={i} {...it} aspect={isMobile ? "4/3" : it.aspect}/>)}
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr 1fr", gap: 14 }}>
-        {items.slice(4).map((it, i) => <Photo key={i} {...it}/>)}
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1.2fr 1fr 1fr", gap: 14 }}>
+        {items.slice(4).map((it, i) => <Photo key={i} {...it} aspect={isMobile ? "4/3" : it.aspect}/>)}
       </div>
     </Section>
   );

@@ -2,6 +2,8 @@
    Fulfillment Pro — Colors & Type
    ========================================================= */
 
+html, body { overflow-x: hidden; max-width: 100vw; }
+
 :root {
   --black:           #0A0A0B;
   --ink:            #111113;

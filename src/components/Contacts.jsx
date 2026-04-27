@@ -1,5 +1,6 @@
 import React from 'react';
 import { Section, Eyebrow, Button, Ic } from './Primitives';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const msgPill = {
   display: "inline-flex", alignItems: "center", gap: 10,
@@ -58,9 +59,10 @@ function MapPin({ x, y, label, primary }) {
 }
 
 export function Contacts() {
+  const isMobile = useIsMobile();
   return (
     <Section id="contact" pad="default">
-      <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1.3fr)", gap: 18 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "minmax(0, 1fr) minmax(0, 1.3fr)", gap: 18 }}>
         <div style={{
           background: "var(--bg-card)", border: "1px solid var(--border-1)",
           borderRadius: 24, padding: "clamp(32px, 4vw, 48px)",
@@ -96,7 +98,7 @@ export function Contacts() {
           </div>
         </div>
 
-        <div style={{
+        {!isMobile && <div style={{
           position: "relative", borderRadius: 24, overflow: "hidden",
           border: "1px solid var(--border-1)",
           background: `radial-gradient(circle at 30% 40%, rgba(207,166,74,.12), transparent 50%),
@@ -129,7 +131,7 @@ export function Contacts() {
           }}>
             <Ic.pin size={14}/> Пенза · 2 склада
           </div>
-        </div>
+        </div>}
       </div>
     </Section>
   );
@@ -154,14 +156,15 @@ function FooterCol({ title, links }) {
 }
 
 export function Footer() {
+  const isMobile = useIsMobile();
   return (
     <footer style={{
       borderTop: "1px solid var(--border-1)",
       background: "linear-gradient(180deg, #0A0A0B, #050506)",
-      padding: "56px 28px 28px", marginTop: 40,
+      padding: isMobile ? "40px 20px 24px" : "56px 28px 28px", marginTop: 40,
     }}>
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "minmax(220px, 1fr) repeat(4, minmax(0, auto))", gap: 56, marginBottom: 48 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "minmax(220px, 1fr) repeat(4, minmax(0, auto))", gap: isMobile ? 32 : 56, marginBottom: 40 }}>
           <div>
             <a href="#top" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", fontFamily: "Manrope", fontWeight: 800, fontSize: 18, letterSpacing: "-0.025em", color: "#fff" }}>
               <span style={{ width: 34, height: 34, borderRadius: 10, background: "var(--gold-gradient)", display: "flex", alignItems: "center", justifyContent: "center" }}>

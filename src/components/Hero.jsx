@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Eyebrow, Breadcrumb, Photo, Section, Ic } from './Primitives';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 export function OfferBanner() {
   return (
@@ -65,11 +66,14 @@ export function OfferBanner() {
 }
 
 export function Hero() {
+  const isMobile = useIsMobile();
   return (
     <section
       id="top"
       style={{
-        padding: "clamp(40px, 5vw, 72px) 28px clamp(72px, 9vw, 128px) 28px",
+        padding: isMobile
+          ? "32px 16px 56px"
+          : "clamp(40px, 5vw, 72px) 28px clamp(72px, 9vw, 128px) 28px",
         position: "relative",
       }}
     >
@@ -78,13 +82,15 @@ export function Hero() {
           position: "absolute", inset: "-100px -100px auto -100px", height: 600, pointerEvents: "none",
           background: "radial-gradient(800px 480px at 30% 30%, rgba(207,166,74,.14), transparent 60%)",
         }}/>
-        <div style={{ marginBottom: 40, position: "relative" }}>
-          <Breadcrumb items={[{ label: "Главная", href: "#" }, { label: "О компании" }]}/>
-        </div>
+        {!isMobile && (
+          <div style={{ marginBottom: 40, position: "relative" }}>
+            <Breadcrumb items={[{ label: "Главная", href: "#" }, { label: "О компании" }]}/>
+          </div>
+        )}
         <div style={{
           display: "grid",
-          gridTemplateColumns: "minmax(0, 1.05fr) minmax(0, 1fr)",
-          gap: 64, alignItems: "center", position: "relative",
+          gridTemplateColumns: isMobile ? "1fr" : "minmax(0, 1.05fr) minmax(0, 1fr)",
+          gap: isMobile ? 40 : 64, alignItems: "center", position: "relative",
         }}>
           <div>
             <div style={{ marginBottom: 20 }}><Eyebrow>Полный цикл фулфилмента</Eyebrow></div>
@@ -130,7 +136,7 @@ export function Hero() {
               ))}
             </div>
           </div>
-          <div style={{ position: "relative" }}>
+          {!isMobile && <div style={{ position: "relative" }}>
             <div style={{
               position: "relative", borderRadius: 24, overflow: "hidden",
               border: "1px solid var(--border-2)",
@@ -171,7 +177,7 @@ export function Hero() {
                 </div>
               </div>
             </div>
-          </div>
+          </div>}
         </div>
       </div>
     </section>
