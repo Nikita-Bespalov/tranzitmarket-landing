@@ -65,108 +65,173 @@ export function OfferBanner() {
 }
 
 export function Hero() {
+  const sectionRef = React.useRef(null);
+  const videoRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const video = videoRef.current;
+    const section = sectionRef.current;
+    if (!video || !section) return;
+
+    let onScroll = null;
+
+    const init = () => {
+      const duration = video.duration;
+      onScroll = () => {
+        const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+        const sectionH = section.offsetHeight;
+        const progress = Math.max(0, Math.min(1, (window.scrollY - sectionTop) / sectionH));
+        video.currentTime = progress * duration;
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    };
+
+    if (video.readyState >= 1) {
+      init();
+    } else {
+      video.addEventListener('loadedmetadata', init, { once: true });
+    }
+
+    return () => {
+      video.removeEventListener('loadedmetadata', init);
+      if (onScroll) window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
+
   return (
-    <Section id="top" pad="default" style={{ paddingTop: "clamp(40px, 5vw, 72px)" }}>
-      <div aria-hidden style={{
-        position: "absolute", inset: "-100px -100px auto -100px", height: 600, pointerEvents: "none",
-        background: "radial-gradient(800px 480px at 30% 30%, rgba(207,166,74,.14), transparent 60%)",
-      }}/>
-      <div style={{ marginBottom: 40, position: "relative" }}>
-        <Breadcrumb items={[{ label: "Главная", href: "#" }, { label: "О компании" }]}/>
-      </div>
+    <section
+      id="top"
+      ref={sectionRef}
+      style={{
+        padding: "clamp(40px, 5vw, 72px) 28px clamp(72px, 9vw, 128px) 28px",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* ── Scroll-scrubbed video background ── */}
+      <video
+        ref={videoRef}
+        muted
+        playsInline
+        preload="auto"
+        src="/assets/warehouse/hero-bg.mp4"
+        style={{
+          position: "absolute", inset: 0,
+          width: "100%", height: "100%",
+          objectFit: "cover",
+          zIndex: 0,
+        }}
+      />
+      {/* ── Dark overlay ── */}
       <div style={{
-        display: "grid",
-        gridTemplateColumns: "minmax(0, 1.05fr) minmax(0, 1fr)",
-        gap: 64, alignItems: "center", position: "relative",
-      }}>
-        <div>
-          <div style={{ marginBottom: 20 }}><Eyebrow>Полный цикл фулфилмента</Eyebrow></div>
-          <h1 style={{
-            fontFamily: "Manrope, sans-serif",
-            fontSize: "clamp(36px, 4.6vw, 72px)",
-            fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.02,
-            margin: 0, color: "#fff",
-          }}>
-            Фулфилмент в Пензе и области для{" "}
-            <span style={{
-              backgroundImage: "var(--gold-gradient)",
-              WebkitBackgroundClip: "text", backgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              letterSpacing: "-0.02em",
-            }}>маркетплейсов</span>{" "}
-            и интернет-магазинов от хх руб
-          </h1>
-          <p style={{ fontSize: 18.5, lineHeight: 1.55, color: "var(--fg-2)", marginTop: 28, maxWidth: 540 }}>
-            Упакуем и доставим Ваш товар на склад маркетплейса за{" "}
-            <strong style={{ color: "#fff", fontWeight: 600 }}>48 часов под ключ</strong>.
-          </p>
-          <p style={{ fontSize: 16, lineHeight: 1.7, color: "var(--fg-3)", marginTop: 18, maxWidth: 540 }}>
-            Берём на себя все этапы — от приёмки и маркировки до упаковки и отгрузки на{" "}
-            Wildberries, Ozon, Яндекс.Маркет и другие платформы.
-          </p>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 36 }}>
-            <Button size="lg" icon={<Ic.arrow/>} as="a" href="#contact">Получить расчёт</Button>
-            <Button size="lg" variant="secondary" as="a" href="#services">Наши услуги</Button>
-          </div>
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 28 }}>
-            {["Бесплатный вывоз", "Договор за 1 день", "Без скрытых наценок"].map(t => (
-              <span key={t} style={{
-                display: "inline-flex", alignItems: "center", gap: 8,
-                padding: "8px 14px", borderRadius: 999,
-                border: "1px solid rgba(207,166,74,.28)",
-                background: "rgba(207,166,74,.06)",
-                color: "var(--gold-200)",
-                fontSize: 12.5, fontWeight: 500, letterSpacing: "0.02em",
-              }}>
-                <Ic.check size={14}/>{t}
-              </span>
-            ))}
-          </div>
+        position: "absolute", inset: 0, zIndex: 1,
+        background: "linear-gradient(135deg, rgba(10,10,11,.82) 0%, rgba(10,10,11,.60) 55%, rgba(10,10,11,.74) 100%)",
+      }}/>
+
+      {/* ── Content ── */}
+      <div style={{ maxWidth: 1280, margin: "0 auto", position: "relative", zIndex: 2 }}>
+        <div aria-hidden style={{
+          position: "absolute", inset: "-100px -100px auto -100px", height: 600, pointerEvents: "none",
+          background: "radial-gradient(800px 480px at 30% 30%, rgba(207,166,74,.14), transparent 60%)",
+        }}/>
+        <div style={{ marginBottom: 40, position: "relative" }}>
+          <Breadcrumb items={[{ label: "Главная", href: "#" }, { label: "О компании" }]}/>
         </div>
-        <div style={{ position: "relative" }}>
-          <div style={{
-            position: "relative", borderRadius: 24, overflow: "hidden",
-            border: "1px solid var(--border-2)",
-            boxShadow: "0 30px 80px -20px rgba(0,0,0,.7), 0 0 0 1px rgba(207,166,74,.08)",
-          }}>
-            <Photo aspect="4/5" tone="warehouse" label="Склад ТРАНЗИТМАРКЕТ"
-              src="/assets/warehouse/warehouse-main.jpeg">
-              <div style={{
-                position: "absolute", inset: 0,
-                background: "linear-gradient(to top, rgba(10,10,11,.55) 0%, rgba(10,10,11,.1) 50%, transparent 100%)",
-              }}/>
-            </Photo>
-            <div style={{
-              position: "absolute", top: 18, left: 18,
-              display: "inline-flex", alignItems: "center", gap: 8,
-              padding: "8px 14px", borderRadius: 999,
-              background: "rgba(10,10,11,.7)", backdropFilter: "blur(10px)",
-              border: "1px solid var(--border-2)",
-              fontSize: 11.5, fontWeight: 600, letterSpacing: "0.12em",
-              textTransform: "uppercase", color: "var(--gold-400)",
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "minmax(0, 1.05fr) minmax(0, 1fr)",
+          gap: 64, alignItems: "center", position: "relative",
+        }}>
+          <div>
+            <div style={{ marginBottom: 20 }}><Eyebrow>Полный цикл фулфилмента</Eyebrow></div>
+            <h1 style={{
+              fontFamily: "Manrope, sans-serif",
+              fontSize: "clamp(36px, 4.6vw, 72px)",
+              fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.02,
+              margin: 0, color: "#fff",
             }}>
-              <Ic.dot/> Бесплатный вывоз по Пензе
-            </div>
-            <div style={{
-              position: "absolute", right: 18, bottom: 18,
-              padding: "16px 20px", borderRadius: 16,
-              background: "rgba(17,17,19,.85)", backdropFilter: "blur(14px)",
-              border: "1px solid var(--border-gold)", minWidth: 180,
-            }}>
-              <div style={{
-                fontFamily: "Manrope", fontWeight: 800, fontSize: 28, letterSpacing: "-0.02em",
+              Фулфилмент в Пензе и области для{" "}
+              <span style={{
                 backgroundImage: "var(--gold-gradient)",
                 WebkitBackgroundClip: "text", backgroundClip: "text",
-                WebkitTextFillColor: "transparent", lineHeight: 1,
-              }}>10 лет</div>
-              <div style={{ fontSize: 12.5, color: "var(--fg-3)", marginTop: 6, lineHeight: 1.4 }}>
-                опыта в управлении<br/>складскими процессами
+                WebkitTextFillColor: "transparent",
+                letterSpacing: "-0.02em",
+              }}>маркетплейсов</span>{" "}
+              и интернет-магазинов от хх руб
+            </h1>
+            <p style={{ fontSize: 18.5, lineHeight: 1.55, color: "var(--fg-2)", marginTop: 28, maxWidth: 540 }}>
+              Упакуем и доставим Ваш товар на склад маркетплейса за{" "}
+              <strong style={{ color: "#fff", fontWeight: 600 }}>48 часов под ключ</strong>.
+            </p>
+            <p style={{ fontSize: 16, lineHeight: 1.7, color: "var(--fg-3)", marginTop: 18, maxWidth: 540 }}>
+              Берём на себя все этапы — от приёмки и маркировки до упаковки и отгрузки на{" "}
+              Wildberries, Ozon, Яндекс.Маркет и другие платформы.
+            </p>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 36 }}>
+              <Button size="lg" icon={<Ic.arrow/>} as="a" href="#contact">Получить расчёт</Button>
+              <Button size="lg" variant="secondary" as="a" href="#services">Наши услуги</Button>
+            </div>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 28 }}>
+              {["Бесплатный вывоз", "Договор за 1 день", "Без скрытых наценок"].map(t => (
+                <span key={t} style={{
+                  display: "inline-flex", alignItems: "center", gap: 8,
+                  padding: "8px 14px", borderRadius: 999,
+                  border: "1px solid rgba(207,166,74,.28)",
+                  background: "rgba(207,166,74,.06)",
+                  color: "var(--gold-200)",
+                  fontSize: 12.5, fontWeight: 500, letterSpacing: "0.02em",
+                }}>
+                  <Ic.check size={14}/>{t}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div style={{ position: "relative" }}>
+            <div style={{
+              position: "relative", borderRadius: 24, overflow: "hidden",
+              border: "1px solid var(--border-2)",
+              boxShadow: "0 30px 80px -20px rgba(0,0,0,.7), 0 0 0 1px rgba(207,166,74,.08)",
+            }}>
+              <Photo aspect="4/5" tone="warehouse" label="Склад ТРАНЗИТМАРКЕТ"
+                src="/assets/warehouse/warehouse-main.jpeg">
+                <div style={{
+                  position: "absolute", inset: 0,
+                  background: "linear-gradient(to top, rgba(10,10,11,.55) 0%, rgba(10,10,11,.1) 50%, transparent 100%)",
+                }}/>
+              </Photo>
+              <div style={{
+                position: "absolute", top: 18, left: 18,
+                display: "inline-flex", alignItems: "center", gap: 8,
+                padding: "8px 14px", borderRadius: 999,
+                background: "rgba(10,10,11,.7)", backdropFilter: "blur(10px)",
+                border: "1px solid var(--border-2)",
+                fontSize: 11.5, fontWeight: 600, letterSpacing: "0.12em",
+                textTransform: "uppercase", color: "var(--gold-400)",
+              }}>
+                <Ic.dot/> Бесплатный вывоз по Пензе
+              </div>
+              <div style={{
+                position: "absolute", right: 18, bottom: 18,
+                padding: "16px 20px", borderRadius: 16,
+                background: "rgba(17,17,19,.85)", backdropFilter: "blur(14px)",
+                border: "1px solid var(--border-gold)", minWidth: 180,
+              }}>
+                <div style={{
+                  fontFamily: "Manrope", fontWeight: 800, fontSize: 28, letterSpacing: "-0.02em",
+                  backgroundImage: "var(--gold-gradient)",
+                  WebkitBackgroundClip: "text", backgroundClip: "text",
+                  WebkitTextFillColor: "transparent", lineHeight: 1,
+                }}>10 лет</div>
+                <div style={{ fontSize: 12.5, color: "var(--fg-3)", marginTop: 6, lineHeight: 1.4 }}>
+                  опыта в управлении<br/>складскими процессами
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </Section>
+    </section>
   );
 }
 
