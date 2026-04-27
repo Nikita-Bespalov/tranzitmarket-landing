@@ -186,25 +186,37 @@ export function Hero() {
 
 export function MarketplaceStrip() {
   const items = ["Wildberries", "Ozon", "Яндекс.Маркет", "Lamoda", "Avito", "AliExpress", "СберМегаМаркет", "KazanExpress"];
+  // duplicate for seamless loop
+  const track = [...items, ...items];
   return (
     <section style={{
       borderTop: "1px solid var(--border-1)", borderBottom: "1px solid var(--border-1)",
       background: "rgba(17,17,19,.5)", overflow: "hidden",
     }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "20px 28px", display: "flex", alignItems: "center", gap: 24 }}>
+      <div style={{ padding: "20px 0", display: "flex", alignItems: "center" }}>
+        {/* Fixed label */}
         <div style={{
           fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase",
           color: "var(--fg-3)", flexShrink: 0, fontWeight: 600,
-          paddingRight: 24, borderRight: "1px solid var(--border-1)",
+          padding: "0 24px", borderRight: "1px solid var(--border-1)",
+          whiteSpace: "nowrap",
         }}>Работаем с</div>
-        <div style={{ display: "flex", alignItems: "center", gap: 44, flex: 1, overflow: "hidden" }}>
-          {items.map(name => (
-            <span key={name} style={{
-              fontFamily: "Manrope", fontSize: 19, fontWeight: 700,
-              letterSpacing: "-0.02em", color: "var(--fg-2)",
-              opacity: 0.7, flexShrink: 0, whiteSpace: "nowrap",
-            }}>{name}</span>
-          ))}
+
+        {/* Scrolling track */}
+        <div style={{ overflow: "hidden", flex: 1 }}>
+          <div style={{
+            display: "flex", alignItems: "center", gap: 48,
+            width: "max-content",
+            animation: "marquee 18s linear infinite",
+          }}>
+            {track.map((name, i) => (
+              <span key={i} style={{
+                fontFamily: "Manrope", fontSize: 19, fontWeight: 700,
+                letterSpacing: "-0.02em", color: "var(--fg-2)",
+                opacity: 0.7, flexShrink: 0, whiteSpace: "nowrap",
+              }}>{name}</span>
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useIsMobile } from './hooks/useIsMobile';
 import { Nav } from './components/Nav';
 import { OfferBanner, Hero, MarketplaceStrip, PromiseBand } from './components/Hero';
 import { Benefits, StatsBand, Services } from './components/Benefits';
@@ -17,11 +18,21 @@ function App() {
   const [tweaks] = useState(DEFAULTS);
   const heroWrapRef = useRef(null);
   const heroVideoRef = useRef(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const video = heroVideoRef.current;
     const wrap  = heroWrapRef.current;
     if (!video || !wrap) return;
+
+    if (isMobile) {
+      // Mobile: just autoplay loop
+      video.loop = true;
+      video.play().catch(() => {});
+      return;
+    }
+
+    // Desktop: scroll scrub
     let onScroll = null;
     const init = () => {
       const dur = video.duration;
@@ -39,7 +50,7 @@ function App() {
       video.removeEventListener('loadedmetadata', init);
       if (onScroll) window.removeEventListener('scroll', onScroll);
     };
-  }, []);
+  }, [isMobile]);
 
   useEffect(() => {
     const root = document.documentElement;
