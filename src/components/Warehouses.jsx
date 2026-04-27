@@ -122,67 +122,135 @@ export function AboutTeam() {
 }
 
 export function WorksCarousel() {
+  const isMobile = useIsMobile();
   const slides = [
-    { title: "Кейс · Косметика", subtitle: "Бренд X · Wildberries", body: "С 200 до 4 200 заказов в месяц за 6 месяцев. 0 ошибок маркировки." },
-    { title: "Кейс · Одежда", subtitle: "Бренд Y · Ozon + WB", body: "Перевели с самостоятельной отгрузки. Сократили возвраты на 27% за счёт упаковки." },
-    { title: "Кейс · Электроника", subtitle: "Бренд Z · Яндекс.Маркет", body: "Запустили хрупкую категорию: индивидуальная упаковка, фото‑отчёт по каждой единице." },
-    { title: "Кейс · Товары для дома", subtitle: "Бренд W · 4 маркетплейса", body: "Единый поток фулфилмента на 4 платформы. Среднее время от поступления до полки — 22 часа." },
+    { title: "Косметика", subtitle: "Бренд X · Wildberries", body: "С 200 до 4 200 заказов в месяц за 6 месяцев. 0 ошибок маркировки.", tag: "×21 рост" },
+    { title: "Одежда", subtitle: "Бренд Y · Ozon + WB", body: "Перевели с самостоятельной отгрузки. Сократили возвраты на 27% за счёт упаковки.", tag: "−27% возвратов" },
+    { title: "Электроника", subtitle: "Бренд Z · Яндекс.Маркет", body: "Запустили хрупкую категорию: индивидуальная упаковка, фото‑отчёт по каждой единице.", tag: "0 браков" },
+    { title: "Товары для дома", subtitle: "Бренд W · 4 маркетплейса", body: "Единый поток на 4 платформы. Среднее время от поступления до полки — 22 часа.", tag: "22 ч до полки" },
   ];
-  const [i, setI] = React.useState(0);
-  const next = () => setI(v => (v+1) % slides.length);
-  const prev = () => setI(v => (v-1+slides.length) % slides.length);
-  const cur = slides[i];
+  const [idx, setIdx] = React.useState(0);
+  const next = () => setIdx(v => (v + 1) % slides.length);
+  const prev = () => setIdx(v => (v - 1 + slides.length) % slides.length);
+
+  // touch swipe
+  const touchX = React.useRef(null);
+  const onTouchStart = e => { touchX.current = e.touches[0].clientX; };
+  const onTouchEnd = e => {
+    if (touchX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchX.current;
+    if (Math.abs(dx) > 40) dx < 0 ? next() : prev();
+    touchX.current = null;
+  };
+
+  const cur = slides[idx];
+
   return (
     <Section pad="default">
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", marginBottom: 40, gap: 24, flexWrap: "wrap" }}>
-        <div style={{ maxWidth: 600 }}>
-          <div style={{ marginBottom: 18 }}><Eyebrow>Наши работы</Eyebrow></div>
+      {/* ── Header ── */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: isMobile ? "center" : "end", marginBottom: isMobile ? 24 : 40, gap: 16, flexWrap: "wrap" }}>
+        <div>
+          <div style={{ marginBottom: 14 }}><Eyebrow>Наши работы</Eyebrow></div>
           <h2 style={{
-            fontFamily: "Manrope", fontSize: "clamp(34px, 3.8vw, 56px)",
+            fontFamily: "Manrope", fontSize: isMobile ? "clamp(28px, 7vw, 36px)" : "clamp(34px, 3.8vw, 56px)",
             fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.05, margin: 0, color: "#fff",
           }}>
             Кейсы <span style={{ backgroundImage: "var(--gold-gradient)", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent" }}>наших селлеров</span>
           </h2>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <span style={{ fontFamily: "JetBrains Mono", fontSize: 14, color: "var(--fg-3)" }}>
-            <span style={{ color: "var(--gold-400)" }}>0{i+1}</span> / 0{slides.length}
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <span style={{ fontFamily: "JetBrains Mono", fontSize: 13, color: "var(--fg-3)" }}>
+            <span style={{ color: "var(--gold-400)" }}>0{idx + 1}</span> / 0{slides.length}
           </span>
           <div style={{ display: "flex", gap: 8 }}>
-            <button onClick={prev} style={cBtn}><Ic.arrowL/></button>
-            <button onClick={next} style={cBtn}><Ic.arrow/></button>
+            <button onClick={prev} style={cBtn}><Ic.arrowL size={16}/></button>
+            <button onClick={next} style={cBtn}><Ic.arrow size={16}/></button>
           </div>
         </div>
       </div>
-      <div style={{
-        position: "relative", borderRadius: 24, overflow: "hidden",
-        border: "1px solid var(--border-1)", background: "#0F0F11",
-        aspectRatio: "16/8", minHeight: 380,
-      }}>
-        <Photo aspect="16/8" tone="warehouse" label={cur.title}>
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(10,10,11,.92) 0%, rgba(10,10,11,.5) 50%, rgba(10,10,11,.85) 100%)" }}/>
-        </Photo>
+
+      {/* ── Card ── */}
+      <div
+        onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}
+        style={{
+          position: "relative", borderRadius: isMobile ? 20 : 24,
+          overflow: "hidden", border: "1px solid var(--border-1)",
+          background: "#0F0F11",
+          minHeight: isMobile ? 320 : 380,
+          ...(isMobile ? {} : { aspectRatio: "16/8" }),
+        }}
+      >
+        {/* Video background */}
+        <video
+          key="case-bg"
+          autoPlay loop muted playsInline
+          src="/assets/warehouse/hero-bg.mp4"
+          style={{
+            position: "absolute", inset: 0, width: "100%", height: "100%",
+            objectFit: "cover", zIndex: 0,
+          }}
+        />
+        {/* Overlay */}
         <div style={{
-          position: "absolute", left: 0, bottom: 0, right: 0,
-          padding: "clamp(28px, 4vw, 56px)",
-          display: "flex", justifyContent: "space-between", alignItems: "end", gap: 32,
-        }}>
-          <div style={{ maxWidth: 640 }}>
-            <div style={{ fontSize: 11.5, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold-400)", fontWeight: 600 }}>{cur.subtitle}</div>
-            <h3 style={{ fontFamily: "Manrope", fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.1, margin: "16px 0 0", color: "#fff" }}>{cur.title}</h3>
-            <p style={{ fontSize: 16.5, color: "var(--fg-2)", marginTop: 16, lineHeight: 1.55 }}>{cur.body}</p>
-          </div>
-          <Button variant="secondary" icon={<Ic.arrow/>}>Смотреть кейс</Button>
-        </div>
-        <div style={{ position: "absolute", top: 24, right: 28, display: "flex", gap: 6 }}>
-          {slides.map((_, idx) => (
-            <button key={idx} onClick={()=>setI(idx)} style={{
-              width: idx === i ? 24 : 8, height: 8, borderRadius: 999,
-              background: idx === i ? "var(--gold-400)" : "rgba(255,255,255,.2)",
+          position: "absolute", inset: 0, zIndex: 1,
+          background: isMobile
+            ? "linear-gradient(180deg, rgba(10,10,11,.55) 0%, rgba(10,10,11,.88) 60%)"
+            : "linear-gradient(135deg, rgba(10,10,11,.88) 0%, rgba(10,10,11,.45) 50%, rgba(10,10,11,.80) 100%)",
+        }}/>
+
+        {/* Dot nav */}
+        <div style={{ position: "absolute", top: 16, right: 16, display: "flex", gap: 6, zIndex: 3 }}>
+          {slides.map((_, di) => (
+            <button key={di} onClick={() => setIdx(di)} style={{
+              width: di === idx ? 20 : 7, height: 7, borderRadius: 999,
+              background: di === idx ? "var(--gold-400)" : "rgba(255,255,255,.25)",
               border: 0, padding: 0, cursor: "pointer", transition: "all 220ms",
             }}/>
           ))}
         </div>
+
+        {/* Content */}
+        {isMobile ? (
+          <div style={{
+            position: "absolute", inset: 0, zIndex: 2,
+            display: "flex", flexDirection: "column", justifyContent: "flex-end",
+            padding: "24px 20px",
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+              <span style={{ fontSize: 10.5, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--gold-400)", fontWeight: 600 }}>{cur.subtitle}</span>
+              <span style={{
+                padding: "3px 10px", borderRadius: 999,
+                background: "rgba(207,166,74,.15)", border: "1px solid rgba(207,166,74,.35)",
+                fontSize: 11, fontWeight: 700, color: "var(--gold-300)",
+              }}>{cur.tag}</span>
+            </div>
+            <h3 style={{
+              fontFamily: "Manrope", fontSize: 24, fontWeight: 800,
+              letterSpacing: "-0.02em", lineHeight: 1.1, margin: 0, color: "#fff",
+            }}>Кейс · {cur.title}</h3>
+            <p style={{ fontSize: 14, color: "var(--fg-2)", marginTop: 10, lineHeight: 1.55 }}>{cur.body}</p>
+          </div>
+        ) : (
+          <div style={{
+            position: "absolute", left: 0, bottom: 0, right: 0, zIndex: 2,
+            padding: "clamp(28px, 4vw, 56px)",
+            display: "flex", justifyContent: "space-between", alignItems: "end", gap: 32,
+          }}>
+            <div style={{ maxWidth: 640 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+                <span style={{ fontSize: 11.5, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold-400)", fontWeight: 600 }}>{cur.subtitle}</span>
+                <span style={{
+                  padding: "4px 12px", borderRadius: 999,
+                  background: "rgba(207,166,74,.15)", border: "1px solid rgba(207,166,74,.35)",
+                  fontSize: 12, fontWeight: 700, color: "var(--gold-300)",
+                }}>{cur.tag}</span>
+              </div>
+              <h3 style={{ fontFamily: "Manrope", fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.1, margin: 0, color: "#fff" }}>Кейс · {cur.title}</h3>
+              <p style={{ fontSize: 16.5, color: "var(--fg-2)", marginTop: 16, lineHeight: 1.55 }}>{cur.body}</p>
+            </div>
+            <Button variant="secondary" icon={<Ic.arrow/>}>Смотреть кейс</Button>
+          </div>
+        )}
       </div>
     </Section>
   );
