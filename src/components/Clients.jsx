@@ -3,12 +3,12 @@ import { Section, Eyebrow, Ic } from './Primitives';
 
 export function Clients() {
   const clients = [
-    { name: "Петровская мебель", category: "Мебель", initials: "ПМ" },
-    { name: "Леском", category: "Двери", initials: "ЛК" },
-    { name: "Илком", category: "Кухонная мебель", initials: "ИЛ" },
-    { name: "Нарус", category: "Мебель", initials: "НР" },
+    { name: "Петровская мебель", category: "Мебель", initials: "ПМ", logo: "/assets/clients/petrovskaya-mebel.png" },
+    { name: "Леском", category: "Двери", initials: "ЛК", logo: "/assets/clients/leskom.png" },
+    { name: "Илком", category: "Кухонная мебель", initials: "ИЛ", logo: "/assets/clients/ilkom.png" },
+    { name: "Нарус", category: "Мебель", initials: "НР", logo: "/assets/clients/narus.png" },
     { name: "Чемпион", category: "Тренажёры", initials: "ЧП" },
-    { name: "Интервело", category: "Велозапчасти", initials: "ИВ" },
+    { name: "Интервело", category: "Велозапчасти", initials: "ИВ", logo: "/assets/clients/intervelo.png" },
   ];
   return (
     <Section pad="default">
@@ -45,7 +45,7 @@ export function Clients() {
   );
 }
 
-function ClientCard({ name, category, initials }) {
+function ClientCard({ name, category, initials, logo }) {
   const [hover, setHover] = React.useState(false);
   return (
     <div
@@ -60,13 +60,17 @@ function ClientCard({ name, category, initials }) {
       }}>
       <div style={{
         flexShrink: 0, width: 56, height: 56, borderRadius: 12,
-        background: hover ? "var(--gold-gradient)" : "rgba(207,166,74,.10)",
-        border: hover ? "none" : "1px solid rgba(207,166,74,.28)",
+        background: logo ? "#fff" : (hover ? "var(--gold-gradient)" : "rgba(207,166,74,.10)"),
+        border: logo ? "none" : (hover ? "none" : "1px solid rgba(207,166,74,.28)"),
         color: hover ? "#0A0A0B" : "var(--gold-400)",
         display: "flex", alignItems: "center", justifyContent: "center",
         fontFamily: "Manrope", fontWeight: 800, fontSize: 16, letterSpacing: "0.02em",
-        transition: "all 220ms",
-      }}>{initials}</div>
+        transition: "all 220ms", overflow: "hidden",
+      }}>
+        {logo
+          ? <img src={logo} alt={name} style={{ width: "100%", height: "100%", objectFit: "contain", padding: 6 }}/>
+          : initials}
+      </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontFamily: "Manrope", fontSize: 17, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em", lineHeight: 1.2 }}>{name}</div>
         <div style={{ fontSize: 12.5, color: "var(--fg-3)", marginTop: 6, letterSpacing: "0.02em" }}>{category}</div>
