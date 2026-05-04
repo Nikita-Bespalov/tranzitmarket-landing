@@ -9,6 +9,10 @@ export function Clients() {
     { name: "Нарус", category: "Мебель", initials: "НР", logo: "/assets/clients/narus.png" },
     { name: "Чемпион", category: "Тренажёры", initials: "ЧП" },
     { name: "Интервело", category: "Велозапчасти", initials: "ИВ", logo: "/assets/clients/intervelo.png" },
+    // TODO: положить файл public/assets/clients/prodom58.png
+    { name: "ПроДом58", category: "Посуда", initials: "ПД", logo: "/assets/clients/prodom58.png" },
+    // TODO: положить файл public/assets/clients/hitsad.png
+    { name: "Хитсад", category: "Товары для сада", initials: "ХС", logo: "/assets/clients/hitsad.png" },
   ];
   return (
     <Section pad="default">
@@ -34,7 +38,7 @@ export function Clients() {
           <span style={{
             fontFamily: "Manrope", fontWeight: 800, fontSize: 22,
             backgroundImage: "var(--gold-gradient)", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent",
-          }}>6+</span>
+          }}>8+</span>
           <span style={{ fontSize: 13, color: "var(--fg-2)" }}>постоянных<br/>партнёров</span>
         </div>
       </div>
