@@ -10,11 +10,6 @@ const navBtn = {
   transition: "all 200ms",
 };
 
-const stats = [
-  { n: "1 000", unit: "м²", label: "Складская площадь" },
-  { n: "1 000+", label: "товаров в обработке\nежедневно" },
-  { n: "100+", label: "довольных клиентов\nза всё время работы" },
-];
 
 export function Benefits() {
   const items = [
@@ -43,33 +38,6 @@ export function Benefits() {
         {items.map((it, i) => <BenefitCard key={i} {...it} index={i+1}/>)}
       </div>
 
-      {/* ── Stats row ── */}
-      <div style={{
-        display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-        gap: 0, marginTop: 18,
-        background: "var(--bg-card)", border: "1px solid var(--border-1)",
-        borderRadius: 20, overflow: "hidden",
-      }}>
-        {stats.map((s, i) => (
-          <div key={i} style={{
-            padding: "28px 32px",
-            borderLeft: i > 0 ? "1px solid var(--border-1)" : "none",
-          }}>
-            <div style={{
-              fontFamily: "Manrope", fontWeight: 800,
-              fontSize: "clamp(36px, 3.6vw, 52px)",
-              letterSpacing: "-0.04em", lineHeight: 1,
-              backgroundImage: "var(--gold-gradient)",
-              WebkitBackgroundClip: "text", backgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              display: "flex", alignItems: "baseline", gap: 4,
-            }}>
-              {s.n}{s.unit && <span style={{ fontSize: "0.5em", fontWeight: 700 }}>{s.unit}</span>}
-            </div>
-            <div style={{ fontSize: 13.5, color: "var(--fg-2)", marginTop: 10, lineHeight: 1.5, whiteSpace: "pre-line" }}>{s.label}</div>
-          </div>
-        ))}
-      </div>
     </Section>
   );
 }
@@ -107,10 +75,9 @@ function BenefitCard({ icon, title, body, featured, index }) {
 
 export function StatsBand() {
   const stats = [
-    { n: "1500", unit: "м²", label: "Складская площадь" },
-    { n: "24/7", label: "Круглосуточная охрана\nвашего товара" },
-    { n: ">15 000", label: "товаров наша команда\nобрабатывает в сутки" },
-    { n: ">1 000", label: "довольных клиентов\nза 10 лет работы" },
+    { n: "1 000", unit: "м²", label: "Складская площадь" },
+    { n: "1 000+", label: "товаров в обработке\nежедневно" },
+    { n: "100+", label: "довольных клиентов\nза всё время работы" },
   ];
   return (
     <Section pad="tight">
