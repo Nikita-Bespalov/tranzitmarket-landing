@@ -107,11 +107,11 @@ export function Hero() {
                 WebkitTextFillColor: "transparent",
                 letterSpacing: "-0.02em",
               }}>маркетплейсов</span>{" "}
-              и интернет-магазинов от хх руб
+              и интернет-магазинов от 5 рублей
             </h1>
             <p style={{ fontSize: 18.5, lineHeight: 1.55, color: "var(--fg-2)", marginTop: 28, maxWidth: 540 }}>
-              Упакуем и доставим Ваш товар на склад маркетплейса за{" "}
-              <strong style={{ color: "#fff", fontWeight: 600 }}>48 часов под ключ</strong>.
+              Доставим ваш товар на склад маркетплейса{" "}
+              <strong style={{ color: "#fff", fontWeight: 600 }}>за 24 часа</strong> — упаковка, маркировка и отгрузка под ключ.
             </p>
             <p style={{ fontSize: 16, lineHeight: 1.7, color: "var(--fg-3)", marginTop: 18, maxWidth: 540 }}>
               Берём на себя все этапы — от приёмки и маркировки до упаковки и отгрузки на{" "}

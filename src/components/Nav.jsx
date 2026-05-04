@@ -97,9 +97,6 @@ export function Nav() {
         {!isMobile && (
           <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 14 }}>
             <div style={{ display: "flex", gap: 6 }}>
-              <a href="#" title="WhatsApp" style={iconBtn}>
-                <img src="/assets/icon-whatsapp.png" alt="" style={{ width: 22, height: 22, borderRadius: 999 }}/>
-              </a>
               <a href="#" title="Telegram" style={iconBtn}>
                 <img src="/assets/icon-telegram.png" alt="" style={{ width: 22, height: 22, borderRadius: 999 }}/>
               </a>
@@ -113,15 +110,15 @@ export function Nav() {
             }}>
               <div style={{ display: "flex", alignItems: "center", gap: 6, justifyContent: "flex-end" }}>
                 <span style={{ width: 7, height: 7, borderRadius: 999, background: "var(--success)", boxShadow: "0 0 8px rgba(59,187,110,.7)" }}/>
-                <a href="tel:+74954142112" style={{
+                <a href="tel:+79004669477" style={{
                   fontFamily: "Manrope", fontSize: 14.5, fontWeight: 700,
                   color: "#fff", letterSpacing: "-0.01em", textDecoration: "none",
-                }}>+7 (495) 414‑21‑12</a>
+                }}>+7 (900) 466‑94‑77</a>
               </div>
-              <a href="mailto:welcome@tranzitmarket.ru" style={{
+              <a href="mailto:tranzitmarket58@yandex.ru" style={{
                 fontSize: 11.5, color: "var(--fg-3)",
                 fontFamily: "Inter", fontWeight: 500, letterSpacing: "0.02em", textDecoration: "none",
-              }}>welcome@tranzitmarket.ru</a>
+              }}>tranzitmarket58@yandex.ru</a>
             </div>
             <Button size="sm" as="a" href="#contact">Обратный звонок</Button>
           </div>
@@ -130,10 +127,10 @@ export function Nav() {
         {/* ── Mobile: phone + hamburger ── */}
         {isMobile && (
           <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 10 }}>
-            <a href="tel:+74954142112" style={{
+            <a href="tel:+79004669477" style={{
               fontFamily: "Manrope", fontSize: 13, fontWeight: 700,
               color: "#fff", textDecoration: "none", letterSpacing: "-0.01em",
-            }}>+7 (495) 414‑21‑12</a>
+            }}>+7 (900) 466‑94‑77</a>
             <button
               onClick={() => setMenuOpen(o => !o)}
               style={{
@@ -178,7 +175,6 @@ export function Nav() {
               >{l}</a>
             ))}
             <div style={{ padding: "16px 24px 4px", display: "flex", gap: 10 }}>
-              <a href="#" style={iconBtn}><img src="/assets/icon-whatsapp.png" alt="WhatsApp" style={{ width: 22, height: 22, borderRadius: 999 }}/></a>
               <a href="#" style={iconBtn}><img src="/assets/icon-telegram.png" alt="Telegram" style={{ width: 22, height: 22, borderRadius: 999 }}/></a>
               <a href="#" style={iconBtn}><img src="/assets/icon-max.png" alt="MAX" style={{ width: 22, height: 22, borderRadius: 6 }}/></a>
             </div>

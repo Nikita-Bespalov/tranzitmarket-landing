@@ -84,16 +84,19 @@ export function Contacts() {
             <ContactRow icon={<Ic.clock size={18}/>} label="Режим работы">
               Пн–Сб с 10:00 до 20:00 · Вс по записи
             </ContactRow>
-            <ContactRow icon={<Ic.phone size={18}/>} label="Контактный телефон">
-              <a href="tel:+74954142112" style={{ fontFamily: "Manrope", fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em" }}>+7 (495) 414‑21‑12</a>
+            <ContactRow icon={<Ic.phone size={18}/>} label="Фулфилмент">
+              <a href="tel:+79004669477" style={{ fontFamily: "Manrope", fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em" }}>+7 (900) 466‑94‑77</a>
+            </ContactRow>
+            <ContactRow icon={<Ic.phone size={18}/>} label="Логистика">
+              {/* TODO: добавить номер телефона для логистики */}
+              <span style={{ fontFamily: "Manrope", fontSize: 16, color: "var(--fg-3)", fontStyle: "italic" }}>Номер телефона скоро</span>
             </ContactRow>
             <ContactRow icon={<Ic.mail size={18}/>} label="Почта">
-              <a href="mailto:welcome@tranzitmarket.ru" style={{ color: "var(--gold-400)" }}>welcome@tranzitmarket.ru</a>
+              <a href="mailto:tranzitmarket58@yandex.ru" style={{ color: "var(--gold-400)", textDecoration: "none" }}>tranzitmarket58@yandex.ru</a>
             </ContactRow>
           </div>
           <div style={{ marginTop: 32, paddingTop: 24, borderTop: "1px solid var(--border-1)", display: "flex", gap: 10, flexWrap: "wrap" }}>
             <a href="#" style={msgPill}><img src="/assets/icon-telegram.png" alt="" style={{ width: 22, height: 22, borderRadius: 999 }}/>Telegram</a>
-            <a href="#" style={msgPill}><img src="/assets/icon-whatsapp.png" alt="" style={{ width: 22, height: 22, borderRadius: 999 }}/>WhatsApp</a>
             <a href="#" style={msgPill}><img src="/assets/icon-max.png" alt="" style={{ width: 22, height: 22, borderRadius: 6 }}/>MAX</a>
           </div>
         </div>
@@ -173,7 +176,7 @@ export function Footer() {
               <span style={{ backgroundImage: "var(--gold-gradient)", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", letterSpacing: "0.01em" }}>ТРАНЗИТМАРКЕТ</span>
             </a>
             <p style={{ fontSize: 13.5, color: "var(--fg-3)", marginTop: 16, lineHeight: 1.6, maxWidth: 280 }}>
-              Полный цикл фулфилмента для маркетплейсов и интернет-магазинов. Пенза, с 2015 года.
+              Полный цикл фулфилмента для маркетплейсов и интернет-магазинов. Пенза, с 2019 года.
             </p>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 18 }}>
               <span style={{ width: 7, height: 7, borderRadius: 999, background: "var(--success)", boxShadow: "0 0 8px rgba(59,187,110,.7)" }}/>
@@ -183,10 +186,10 @@ export function Footer() {
           <FooterCol title="Услуги" links={["Фулфилмент", "Хранение", "Маркировка", "Упаковка", "Отгрузка на МП"]}/>
           <FooterCol title="Компания" links={["О нас", "Кейсы", "Блог", "Карьера", "Реквизиты"]}/>
           <FooterCol title="Помощь" links={["Калькулятор", "Договор", "FAQ", "Тарифы", "Поддержка"]}/>
-          <FooterCol title="Контакты" links={["+7 (495) 414‑21‑12", "welcome@tranzitmarket.ru", "Telegram", "WhatsApp", "MAX"]}/>
+          <FooterCol title="Контакты" links={["+7 (900) 466‑94‑77", "tranzitmarket58@yandex.ru", "Telegram", "MAX"]}/>
         </div>
         <div style={{ paddingTop: 24, borderTop: "1px solid var(--border-1)", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
-          <div style={{ fontSize: 12, color: "var(--fg-3)" }}>© 2026 ТРАНЗИТМАРКЕТ. Все права защищены.</div>
+          <div style={{ fontSize: 12, color: "var(--fg-3)" }}>© 2026 ТРАНЗИТМАРКЕТ. Все права защищены. С 2019 года.</div>
           <div style={{ display: "flex", gap: 24 }}>
             <a href="#" style={{ fontSize: 12, color: "var(--fg-3)" }}>Политика конфиденциальности</a>
             <a href="#" style={{ fontSize: 12, color: "var(--fg-3)" }}>Договор оферты</a>

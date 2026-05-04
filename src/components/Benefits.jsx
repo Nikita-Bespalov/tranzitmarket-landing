@@ -1,5 +1,6 @@
 import React from 'react';
 import { Section, Eyebrow, Ic, Button } from './Primitives';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const navBtn = {
   width: 44, height: 44, borderRadius: 999,
@@ -9,11 +10,16 @@ const navBtn = {
   transition: "all 200ms",
 };
 
+const stats = [
+  { n: "1 000", unit: "м²", label: "Складская площадь" },
+  { n: "1 000+", label: "товаров в обработке\nежедневно" },
+  { n: "100+", label: "довольных клиентов\nза всё время работы" },
+];
+
 export function Benefits() {
   const items = [
     { icon: <Ic.bolt size={28}/>, title: "Быстрая отгрузка", body: "Отгружаем ваш товар за 1–2 дня после поступления на склад. Утром приняли — вечером уже на полке маркетплейса.", featured: true },
     { icon: <Ic.doc size={28}/>, title: "Работа по договору", body: "Всё официально. Договор, акты, закрывающие документы. Вы спокойны за сохранность вашего товара." },
-    { icon: <Ic.pin size={28}/>, title: "Удобная локация в Пензе", body: "Склад в центре Пензы — рядом транспортные узлы. Быстрая отгрузка на склады Wildberries и Ozon." },
     { icon: <Ic.scan size={28}/>, title: "Контроль на каждом этапе", body: "Полная прозрачность. Видеонаблюдение 24/7, статусы в личном кабинете, фото‑отчёты по запросу." },
   ];
   return (
@@ -30,11 +36,39 @@ export function Benefits() {
           </h2>
         </div>
         <p style={{ fontSize: 16, color: "var(--fg-2)", maxWidth: 380, lineHeight: 1.6 }}>
-          Четыре причины, по которым селлеры остаются с нами на годы — и приводят коллег.
+          Три ключевых преимущества, по которым селлеры остаются с нами на годы.
         </p>
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 18 }}>
         {items.map((it, i) => <BenefitCard key={i} {...it} index={i+1}/>)}
+      </div>
+
+      {/* ── Stats row ── */}
+      <div style={{
+        display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+        gap: 0, marginTop: 18,
+        background: "var(--bg-card)", border: "1px solid var(--border-1)",
+        borderRadius: 20, overflow: "hidden",
+      }}>
+        {stats.map((s, i) => (
+          <div key={i} style={{
+            padding: "28px 32px",
+            borderLeft: i > 0 ? "1px solid var(--border-1)" : "none",
+          }}>
+            <div style={{
+              fontFamily: "Manrope", fontWeight: 800,
+              fontSize: "clamp(36px, 3.6vw, 52px)",
+              letterSpacing: "-0.04em", lineHeight: 1,
+              backgroundImage: "var(--gold-gradient)",
+              WebkitBackgroundClip: "text", backgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              display: "flex", alignItems: "baseline", gap: 4,
+            }}>
+              {s.n}{s.unit && <span style={{ fontSize: "0.5em", fontWeight: 700 }}>{s.unit}</span>}
+            </div>
+            <div style={{ fontSize: 13.5, color: "var(--fg-2)", marginTop: 10, lineHeight: 1.5, whiteSpace: "pre-line" }}>{s.label}</div>
+          </div>
+        ))}
       </div>
     </Section>
   );
@@ -125,8 +159,8 @@ export function StatsBand() {
 
 export function Services() {
   const items = [
-    { n: "01", title: "Забор груза", body: "Организуем забор груза из любой точки Пензы, области, регионов и из‑за рубежа. Бесплатный вывоз по Москве в день обращения." },
-    { n: "02", title: "Транспортная логистика", body: "Сотрудничаем с проверенными транспортными компаниями, рынками и карго — это позволяет эффективно доставлять груз из любой точки, включая Китай." },
+    { n: "01", title: "Забор груза", body: "Бесплатный вывоз по Пензе и области. Организуем забор груза из любой точки регионов и из‑за рубежа — в день обращения." },
+    { n: "02", title: "Транспортная логистика", body: "Собственный автопарк позволяет эффективно доставлять груз из любой точки СНГ. Также работаем с проверенными карго-партнёрами, включая Китай." },
     { n: "03", title: "Приёмка товара", body: "Проводим тщательную приёмку: пересчитываем каждую единицу, проверяем на брак и соответствие стандартам маркетплейсов." },
     { n: "04", title: "Маркировка и упаковка", body: "Особое внимание уделяем печати этикеток, маркировке и упаковке — соблюдаем все требования. При необходимости — вкладыши в каждой позиции." },
     { n: "05", title: "Качественная упаковка", body: "Аккуратная упаковка в плёнку с клеевым клапаном, Zip Lock и прочные картонные коробки. Товар приедет на склад без повреждений." },
@@ -165,6 +199,71 @@ export function Services() {
         paddingBottom: 16, marginInline: -28, paddingInline: 28, scrollbarWidth: "none",
       }}>
         {items.map((it, i) => <ServiceCard key={i} {...it}/>)}
+      </div>
+    </Section>
+  );
+}
+
+export function LogisticsBanner() {
+  const isMobile = useIsMobile();
+  const features = [
+    { icon: <Ic.truck size={22}/>, text: "Бесплатный вывоз по Пензе и области" },
+    { icon: <Ic.refresh size={22}/>, text: "Собственный автопарк — доставка по всему СНГ" },
+    { icon: <Ic.factory size={22}/>, text: "Карго из Китая и работа с зарубежными поставщиками" },
+    { icon: <Ic.pkg size={22}/>, text: "Сборные грузы, FTL и LTL отправки" },
+  ];
+  return (
+    <Section id="logistics" pad="default">
+      <div style={{
+        position: "relative", borderRadius: 28, overflow: "hidden",
+        border: "1px solid var(--border-1)",
+        background: `
+          radial-gradient(900px 400px at 100% 0%, rgba(207,166,74,.14), transparent 55%),
+          radial-gradient(600px 350px at 0% 100%, rgba(207,166,74,.08), transparent 60%),
+          linear-gradient(135deg, #15151A 0%, #0E0E10 100%)`,
+        padding: "clamp(40px, 5vw, 64px) clamp(32px, 5vw, 64px)",
+      }}>
+        <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "linear-gradient(90deg, transparent, var(--gold-400) 50%, transparent)", opacity: 0.5 }}/>
+
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "minmax(0, 1fr) minmax(0, 1fr)", gap: isMobile ? 32 : 56, alignItems: "center" }}>
+          <div>
+            <div style={{ marginBottom: 18 }}><Eyebrow>Логистика</Eyebrow></div>
+            <h2 style={{
+              fontFamily: "Manrope", fontSize: "clamp(28px, 3.2vw, 46px)",
+              fontWeight: 700, letterSpacing: "-0.025em", lineHeight: 1.08, margin: 0, color: "#fff",
+            }}>
+              Не только фулфилмент —{" "}
+              <span style={{ backgroundImage: "var(--gold-gradient)", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                полный цикл логистики
+              </span>
+            </h2>
+            <p style={{ fontSize: 16, lineHeight: 1.65, color: "var(--fg-2)", marginTop: 22, maxWidth: 480 }}>
+              ТРАНЗИТМАРКЕТ оказывает самостоятельные логистические услуги: забор, перевозка и доставка грузов — независимо от фулфилмента.
+            </p>
+            <div style={{ marginTop: 32 }}>
+              <Button size="lg" icon={<Ic.arrow/>} as="a" href="#contact">Получить расчёт по логистике</Button>
+            </div>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {features.map((f, i) => (
+              <div key={i} style={{
+                display: "flex", alignItems: "center", gap: 16,
+                padding: "18px 20px", borderRadius: 14,
+                background: "rgba(255,255,255,.03)",
+                border: "1px solid var(--border-1)",
+              }}>
+                <span style={{
+                  flexShrink: 0, width: 44, height: 44, borderRadius: 12,
+                  background: "rgba(207,166,74,.10)", border: "1px solid rgba(207,166,74,.28)",
+                  color: "var(--gold-400)",
+                  display: "inline-flex", alignItems: "center", justifyContent: "center",
+                }}>{f.icon}</span>
+                <span style={{ fontSize: 15, color: "var(--fg-1)", lineHeight: 1.45 }}>{f.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </Section>
   );

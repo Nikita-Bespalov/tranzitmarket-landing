@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useIsMobile } from './hooks/useIsMobile';
 import { Nav } from './components/Nav';
 import { OfferBanner, Hero, MarketplaceStrip, PromiseBand } from './components/Hero';
-import { Benefits, StatsBand, Services } from './components/Benefits';
+import { Benefits, StatsBand, Services, LogisticsBanner } from './components/Benefits';
 import { Warehouses, AboutTeam, WorksCarousel } from './components/Warehouses';
 import { Clients } from './components/Clients';
 import { Contacts, Footer } from './components/Contacts';
@@ -92,6 +92,7 @@ function App() {
       <Benefits />
       {tweaks.showStatsBand && <StatsBand />}
       <Services />
+      <LogisticsBanner />
       <Warehouses />
       <AboutTeam />
       <Clients />
@@ -106,9 +107,7 @@ function App() {
         <a href="#" className="fab" title="Telegram">
           <img src="/assets/icon-telegram.png" alt="Telegram" />
         </a>
-        <a href="#" className="fab" title="WhatsApp">
-          <img src="/assets/icon-whatsapp.png" alt="WhatsApp" />
-        </a>
+
       </div>
     </div>
   );
