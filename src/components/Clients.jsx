@@ -7,7 +7,8 @@ export function Clients() {
     { name: "Леском", category: "Двери", initials: "ЛК", logo: "/assets/clients/leskom.png" },
     { name: "Илком", category: "Кухонная мебель", initials: "ИЛ", logo: "/assets/clients/ilkom.png" },
     { name: "Нарус", category: "Мебель", initials: "НР", logo: "/assets/clients/narus.png" },
-    { name: "Чемпион", category: "Тренажёры", initials: "ЧП" },
+    // TODO: положить файл public/assets/clients/champion.png
+    { name: "Чемпион", category: "Тренажёры", initials: "ЧП", logo: "/assets/clients/champion.png" },
     { name: "Интервело", category: "Велозапчасти", initials: "ИВ", logo: "/assets/clients/intervelo.png" },
     // TODO: положить файл public/assets/clients/prodom58.png
     { name: "ПроДом58", category: "Посуда", initials: "ПД", logo: "/assets/clients/prodom58.png" },
