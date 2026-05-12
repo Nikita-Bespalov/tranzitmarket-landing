@@ -11,7 +11,7 @@ import './tokens.css';
 const DEFAULTS = {
   accentMode: "warm-gold",
   showStatsBand: true,
-  showWorks: true,
+  showWorks: false,
 };
 
 function App() {
