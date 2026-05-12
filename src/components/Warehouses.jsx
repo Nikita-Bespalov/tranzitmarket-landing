@@ -44,18 +44,35 @@ export function Warehouses() {
   );
 }
 
-const ABOUT_PHOTOS = [
+// Добавляйте сюда файлы из public/assets/about/
+// Поддерживаются: .jpg .jpeg .png .webp (фото) и .webm .mp4 (видео)
+const ABOUT_MEDIA = [
   "/assets/about/about-1.jpg",
   "/assets/about/about-2.jpg",
   "/assets/about/about-3.jpg",
   "/assets/about/about-4.jpg",
 ];
 
+const isVideo = src => /\.(webm|mp4)$/i.test(src);
+
+function MediaSlide({ src, active }) {
+  const style = {
+    position: "absolute", inset: 0, width: "100%", height: "100%",
+    objectFit: "cover",
+    opacity: active ? 1 : 0,
+    transition: "opacity 380ms cubic-bezier(.2,.7,.2,1)",
+  };
+  if (isVideo(src)) {
+    return <video src={src} autoPlay loop muted playsInline style={style}/>;
+  }
+  return <img src={src} alt="" style={style}/>;
+}
+
 function AboutCarousel() {
   const [idx, setIdx] = React.useState(0);
-  const photos = ABOUT_PHOTOS;
-  const next = () => setIdx(v => (v + 1) % photos.length);
-  const prev = () => setIdx(v => (v - 1 + photos.length) % photos.length);
+  const media = ABOUT_MEDIA;
+  const next = () => setIdx(v => (v + 1) % media.length);
+  const prev = () => setIdx(v => (v - 1 + media.length) % media.length);
   const touchX = React.useRef(null);
 
   return (
@@ -68,15 +85,8 @@ function AboutCarousel() {
         touchX.current = null;
       }}
     >
-      {/* Photos */}
-      {photos.map((src, i) => (
-        <img key={i} src={src} alt="" style={{
-          position: "absolute", inset: 0, width: "100%", height: "100%",
-          objectFit: "cover",
-          opacity: i === idx ? 1 : 0,
-          transition: "opacity 380ms cubic-bezier(.2,.7,.2,1)",
-        }}/>
-      ))}
+      {/* Slides */}
+      {media.map((src, i) => <MediaSlide key={i} src={src} active={i === idx}/>)}
 
       {/* Gradient overlay */}
       <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,10,11,.5) 0%, transparent 40%)", pointerEvents: "none" }}/>
@@ -93,7 +103,7 @@ function AboutCarousel() {
 
       {/* Dot indicators */}
       <div style={{ position: "absolute", bottom: 14, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 6 }}>
-        {photos.map((_, di) => (
+        {media.map((_, di) => (
           <button key={di} onClick={() => setIdx(di)} style={{
             width: di === idx ? 20 : 7, height: 7, borderRadius: 999,
             background: di === idx ? "var(--gold-400)" : "rgba(255,255,255,.4)",
