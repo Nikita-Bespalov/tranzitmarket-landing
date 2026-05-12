@@ -44,7 +44,69 @@ export function Warehouses() {
   );
 }
 
+const ABOUT_PHOTOS = [
+  "/assets/about/about-1.jpg",
+  "/assets/about/about-2.jpg",
+  "/assets/about/about-3.jpg",
+  "/assets/about/about-4.jpg",
+];
+
+function AboutCarousel() {
+  const [idx, setIdx] = React.useState(0);
+  const photos = ABOUT_PHOTOS;
+  const next = () => setIdx(v => (v + 1) % photos.length);
+  const prev = () => setIdx(v => (v - 1 + photos.length) % photos.length);
+  const touchX = React.useRef(null);
+
+  return (
+    <div style={{ position: "relative", borderRadius: 20, overflow: "hidden", aspectRatio: "4/5" }}
+      onTouchStart={e => { touchX.current = e.touches[0].clientX; }}
+      onTouchEnd={e => {
+        if (touchX.current === null) return;
+        const dx = e.changedTouches[0].clientX - touchX.current;
+        if (Math.abs(dx) > 40) dx < 0 ? next() : prev();
+        touchX.current = null;
+      }}
+    >
+      {/* Photos */}
+      {photos.map((src, i) => (
+        <img key={i} src={src} alt="" style={{
+          position: "absolute", inset: 0, width: "100%", height: "100%",
+          objectFit: "cover",
+          opacity: i === idx ? 1 : 0,
+          transition: "opacity 380ms cubic-bezier(.2,.7,.2,1)",
+        }}/>
+      ))}
+
+      {/* Gradient overlay */}
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,10,11,.5) 0%, transparent 40%)", pointerEvents: "none" }}/>
+
+      {/* Prev / Next buttons */}
+      <button onClick={prev} style={{
+        position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)",
+        ...cBtn, background: "rgba(10,10,11,.55)", backdropFilter: "blur(8px)",
+      }}><Ic.arrowL size={16}/></button>
+      <button onClick={next} style={{
+        position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)",
+        ...cBtn, background: "rgba(10,10,11,.55)", backdropFilter: "blur(8px)",
+      }}><Ic.arrow size={16}/></button>
+
+      {/* Dot indicators */}
+      <div style={{ position: "absolute", bottom: 14, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 6 }}>
+        {photos.map((_, di) => (
+          <button key={di} onClick={() => setIdx(di)} style={{
+            width: di === idx ? 20 : 7, height: 7, borderRadius: 999,
+            background: di === idx ? "var(--gold-400)" : "rgba(255,255,255,.4)",
+            border: 0, padding: 0, cursor: "pointer", transition: "all 220ms",
+          }}/>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function AboutTeam() {
+  const isMobile = useIsMobile();
   const points = [
     "Удобное местоположение складов в Пензе — оперативно отгружаем товары на маркетплейсы по всей России.",
     "Круглосуточное видеонаблюдение и автоматизированная охранная система гарантируют сохранность товара.",
@@ -58,24 +120,7 @@ export function AboutTeam() {
         background: "var(--bg-card)", border: "1px solid var(--border-1)",
         padding: "clamp(40px, 5vw, 64px)",
       }}>
-        <div aria-hidden style={{ position: "absolute", top: 0, right: 0, width: 240, height: 240, opacity: 0.4, pointerEvents: "none" }}>
-          <svg viewBox="0 0 200 200" style={{ width: "100%", height: "100%" }}>
-            <defs>
-              <linearGradient id="cubeG" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#CFA64A"/>
-                <stop offset="100%" stopColor="#A87E2C"/>
-              </linearGradient>
-            </defs>
-            {[[120,40,40],[160,80,30],[100,100,46],[150,140,34]].map(([x,y,s],i)=>(
-              <g key={i} opacity={0.3 + i*0.1}>
-                <polygon points={`${x},${y} ${x+s},${y-s/2} ${x+s},${y+s/2} ${x},${y+s}`} fill="url(#cubeG)" stroke="rgba(207,166,74,.4)" strokeWidth="1"/>
-                <polygon points={`${x},${y} ${x},${y+s} ${x-s},${y+s/2} ${x-s},${y-s/2}`} fill="rgba(168,126,44,.5)" stroke="rgba(207,166,74,.4)" strokeWidth="1"/>
-                <polygon points={`${x},${y} ${x-s},${y-s/2} ${x},${y-s} ${x+s},${y-s/2}`} fill="rgba(232,207,130,.6)" stroke="rgba(207,166,74,.4)" strokeWidth="1"/>
-              </g>
-            ))}
-          </svg>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1.1fr) minmax(0, 1fr)", gap: 56, alignItems: "center", position: "relative" }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "minmax(0, 1.1fr) minmax(0, 1fr)", gap: isMobile ? 36 : 56, alignItems: "center" }}>
           <div>
             <div style={{ marginBottom: 18 }}><Eyebrow>О команде</Eyebrow></div>
             <h2 style={{
@@ -102,19 +147,7 @@ export function AboutTeam() {
               ))}
             </ul>
           </div>
-          <div>
-            <Photo aspect="4/5" tone="team" label="Команда ТРАНЗИТМАРКЕТ">
-              <svg viewBox="0 0 400 500" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.55 }}>
-                {[[80,300,40],[140,290,42],[200,285,44],[260,290,42],[320,300,40]].map(([x,y,r], i) => (
-                  <g key={i}>
-                    <circle cx={x} cy={y-r-10} r={r*0.6} fill="rgba(207,166,74,.45)" stroke="rgba(207,166,74,.5)" strokeWidth="1"/>
-                    <path d={`M${x-r} ${y+r*1.5} Q${x} ${y-r*0.2} ${x+r} ${y+r*1.5} L${x+r} ${y+r*3.5} L${x-r} ${y+r*3.5} Z`}
-                      fill="rgba(20,20,24,.95)" stroke="rgba(207,166,74,.4)" strokeWidth="1"/>
-                  </g>
-                ))}
-              </svg>
-            </Photo>
-          </div>
+          <AboutCarousel/>
         </div>
       </div>
     </Section>
