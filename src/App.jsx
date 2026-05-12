@@ -1,22 +1,33 @@
-import { useState, useEffect, useRef } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { useIsMobile } from './hooks/useIsMobile';
 import { Nav } from './components/Nav';
 import { OfferBanner, Hero, MarketplaceStrip, PromiseBand } from './components/Hero';
 import { Benefits, StatsBand, Services } from './components/Benefits';
-import { Warehouses, AboutTeam, WorksCarousel } from './components/Warehouses';
+import { Warehouses, AboutTeam } from './components/Warehouses';
 import { Clients } from './components/Clients';
 import { Contacts, Footer } from './components/Contacts';
-import { LogisticsPage } from './pages/LogisticsPage';
 import { Ic, Button, Section } from './components/Primitives';
 import './tokens.css';
+
+// Lazy-load logistics page — не грузим на главной
+const LogisticsPage = lazy(() =>
+  import('./pages/LogisticsPage').then(m => ({ default: m.LogisticsPage }))
+);
 
 const DEFAULTS = {
   accentMode: "warm-gold",
   showStatsBand: true,
-  showWorks: false,
 };
 
+// ── Scroll to top on route change ──────────────────────────────────────────
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  return null;
+}
+
+// ── Logistics teaser ───────────────────────────────────────────────────────
 function LogisticsTeaser() {
   return (
     <Section pad="default">
@@ -55,58 +66,85 @@ function LogisticsTeaser() {
   );
 }
 
+// ── Main page ──────────────────────────────────────────────────────────────
 function MainPage({ tweaks }) {
   const heroWrapRef = useRef(null);
   const heroVideoRef = useRef(null);
+  const rafRef = useRef(null);
   const isMobile = useIsMobile();
 
+  // Desktop only: scroll-scrub with rAF throttle
   useEffect(() => {
+    if (isMobile) return;
     const video = heroVideoRef.current;
     const wrap  = heroWrapRef.current;
     if (!video || !wrap) return;
 
-    if (isMobile) {
-      video.loop = true;
-      video.play().catch(() => {});
-      return;
-    }
-
     let onScroll = null;
+
     const init = () => {
       const dur = video.duration;
       onScroll = () => {
-        const top = wrap.getBoundingClientRect().top + window.scrollY;
-        const progress = Math.max(0, Math.min(1, (window.scrollY - top) / wrap.offsetHeight));
-        video.currentTime = progress * dur;
+        if (rafRef.current) return;               // skip if frame already queued
+        rafRef.current = requestAnimationFrame(() => {
+          const top      = wrap.getBoundingClientRect().top + window.scrollY;
+          const progress = Math.max(0, Math.min(1, (window.scrollY - top) / wrap.offsetHeight));
+          video.currentTime = progress * dur;
+          rafRef.current = null;
+        });
       };
       window.addEventListener('scroll', onScroll, { passive: true });
       onScroll();
     };
+
     if (video.readyState >= 1) init();
     else video.addEventListener('loadedmetadata', init, { once: true });
+
     return () => {
       video.removeEventListener('loadedmetadata', init);
       if (onScroll) window.removeEventListener('scroll', onScroll);
+      if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; }
     };
   }, [isMobile]);
+
+  const heroOverlay = (
+    <>
+      <div style={{
+        position: "absolute", inset: 0, zIndex: 1,
+        background: "linear-gradient(135deg, rgba(10,10,11,.82) 0%, rgba(10,10,11,.60) 55%, rgba(10,10,11,.74) 100%)",
+      }}/>
+      <div style={{ position: "relative", zIndex: 2 }}>
+        <OfferBanner />
+        <Hero />
+      </div>
+    </>
+  );
 
   return (
     <div>
       <Nav />
+
+      {/* ── Hero block: static image on mobile, video scrub on desktop ── */}
       <div ref={heroWrapRef} style={{ position: "relative", overflow: "hidden" }}>
-        <video ref={heroVideoRef} muted playsInline preload="auto"
-          src="/assets/warehouse/hero-bg.mp4"
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
-        />
-        <div style={{
-          position: "absolute", inset: 0, zIndex: 1,
-          background: "linear-gradient(135deg, rgba(10,10,11,.82) 0%, rgba(10,10,11,.60) 55%, rgba(10,10,11,.74) 100%)",
-        }}/>
-        <div style={{ position: "relative", zIndex: 2 }}>
-          <OfferBanner />
-          <Hero />
-        </div>
+        {isMobile ? (
+          // Mobile: lightweight static background
+          <img
+            src="/assets/warehouse/warehouse-main.jpeg"
+            alt=""
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
+          />
+        ) : (
+          // Desktop: scroll-scrubbed video
+          <video
+            ref={heroVideoRef}
+            muted playsInline preload="none"
+            src="/assets/warehouse/hero-bg.mp4"
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
+          />
+        )}
+        {heroOverlay}
       </div>
+
       <MarketplaceStrip />
       <PromiseBand />
       <Benefits />
@@ -116,7 +154,6 @@ function MainPage({ tweaks }) {
       <Warehouses />
       <AboutTeam />
       <Clients />
-      {tweaks.showWorks && <WorksCarousel />}
       <Contacts />
       <Footer />
 
@@ -132,6 +169,7 @@ function MainPage({ tweaks }) {
   );
 }
 
+// ── Root ───────────────────────────────────────────────────────────────────
 function App() {
   const [tweaks] = useState(DEFAULTS);
 
@@ -153,10 +191,17 @@ function App() {
   }, [tweaks.accentMode]);
 
   return (
-    <Routes>
-      <Route path="/" element={<MainPage tweaks={tweaks}/>}/>
-      <Route path="/logistics" element={<LogisticsPage/>}/>
-    </Routes>
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<MainPage tweaks={tweaks}/>}/>
+        <Route path="/logistics" element={
+          <Suspense fallback={<div style={{ background: "#0A0A0B", minHeight: "100vh" }}/>}>
+            <LogisticsPage/>
+          </Suspense>
+        }/>
+      </Routes>
+    </>
   );
 }
 

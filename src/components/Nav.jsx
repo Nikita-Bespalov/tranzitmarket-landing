@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Button, Ic } from './Primitives';
 import { useIsMobile } from '../hooks/useIsMobile';
 
@@ -21,6 +22,11 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const isMobile = useIsMobile();
+  const { pathname } = useLocation();
+  const isHome = pathname === '/';
+
+  // If we're not on the home page, prefix anchor links with '/'
+  const resolveHref = (h) => (h.startsWith('#') && !isHome) ? `/${h}` : h;
 
   useEffect(() => {
     const onS = () => setScrolled(window.scrollY > 12);
@@ -81,7 +87,7 @@ export function Nav() {
         {!isMobile && (
           <nav style={{ display: "flex", alignItems: "center", gap: 4, marginLeft: 8 }}>
             {links.map(([l, h]) => (
-              <a key={l} href={h} style={{
+              <a key={l} href={resolveHref(h)} style={{
                 padding: "8px 14px", borderRadius: 999, color: "var(--fg-2)",
                 fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 500,
                 textDecoration: "none", transition: "all 200ms",
@@ -120,7 +126,7 @@ export function Nav() {
                 fontFamily: "Inter", fontWeight: 500, letterSpacing: "0.02em", textDecoration: "none",
               }}>tranzitmarket58@yandex.ru</a>
             </div>
-            <Button size="sm" as="a" href="#contact">Обратный звонок</Button>
+            <Button size="sm" as="a" href={resolveHref("#contact")}>Обратный звонок</Button>
           </div>
         )}
 
@@ -162,7 +168,7 @@ export function Nav() {
             zIndex: 100,
           }}>
             {links.map(([l, h]) => (
-              <a key={l} href={h}
+              <a key={l} href={resolveHref(h)}
                 onClick={() => setMenuOpen(false)}
                 style={{
                   display: "block", padding: "14px 24px",
@@ -179,7 +185,7 @@ export function Nav() {
               <a href="#" style={iconBtn}><img src="/assets/icon-max.png" alt="MAX" style={{ width: 22, height: 22, borderRadius: 6 }}/></a>
             </div>
             <div style={{ padding: "8px 24px 12px" }}>
-              <Button size="md" as="a" href="#contact" style={{ width: "100%", justifyContent: "center" }}>
+              <Button size="md" as="a" href={resolveHref("#contact")} style={{ width: "100%", justifyContent: "center" }}>
                 Обратный звонок
               </Button>
             </div>
