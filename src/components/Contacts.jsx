@@ -85,11 +85,10 @@ export function Contacts() {
               Пн–Сб с 10:00 до 20:00 · Вс по записи
             </ContactRow>
             <ContactRow icon={<Ic.phone size={18}/>} label="Фулфилмент">
-              <a href="tel:+79004669477" style={{ fontFamily: "Manrope", fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em" }}>+7 (900) 466‑94‑77</a>
+              <a href="tel:+79272867857" style={{ fontFamily: "Manrope", fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em" }}>+7 (927) 286‑78‑57</a>
             </ContactRow>
             <ContactRow icon={<Ic.phone size={18}/>} label="Логистика">
-              {/* TODO: добавить номер телефона для логистики */}
-              <span style={{ fontFamily: "Manrope", fontSize: 16, color: "var(--fg-3)", fontStyle: "italic" }}>Номер телефона скоро</span>
+              <a href="tel:+79004669477" style={{ fontFamily: "Manrope", fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em" }}>+7 (900) 466‑94‑77</a>
             </ContactRow>
             <ContactRow icon={<Ic.mail size={18}/>} label="Почта">
               <a href="mailto:tranzitmarket58@yandex.ru" style={{ color: "var(--gold-400)", textDecoration: "none" }}>tranzitmarket58@yandex.ru</a>
@@ -191,8 +190,8 @@ export function Footer() {
         <div style={{ paddingTop: 24, borderTop: "1px solid var(--border-1)", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
           <div style={{ fontSize: 12, color: "var(--fg-3)" }}>© 2026 ТРАНЗИТМАРКЕТ. Все права защищены. С 2019 года.</div>
           <div style={{ display: "flex", gap: 24 }}>
-            <a href="#" style={{ fontSize: 12, color: "var(--fg-3)" }}>Политика конфиденциальности</a>
-            <a href="#" style={{ fontSize: 12, color: "var(--fg-3)" }}>Договор оферты</a>
+            <a href="/privacy.html" style={{ fontSize: 12, color: "var(--fg-3)" }}>Политика конфиденциальности</a>
+            <a href="/offer.html" style={{ fontSize: 12, color: "var(--fg-3)" }}>Договор оферты</a>
           </div>
         </div>
       </div>

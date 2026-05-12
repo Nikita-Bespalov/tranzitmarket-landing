@@ -110,10 +110,10 @@ export function Nav() {
             }}>
               <div style={{ display: "flex", alignItems: "center", gap: 6, justifyContent: "flex-end" }}>
                 <span style={{ width: 7, height: 7, borderRadius: 999, background: "var(--success)", boxShadow: "0 0 8px rgba(59,187,110,.7)" }}/>
-                <a href="tel:+79004669477" style={{
+                <a href="tel:+79272867857" style={{
                   fontFamily: "Manrope", fontSize: 14.5, fontWeight: 700,
                   color: "#fff", letterSpacing: "-0.01em", textDecoration: "none",
-                }}>+7 (900) 466‑94‑77</a>
+                }}>+7 (927) 286‑78‑57</a>
               </div>
               <a href="mailto:tranzitmarket58@yandex.ru" style={{
                 fontSize: 11.5, color: "var(--fg-3)",
@@ -127,10 +127,10 @@ export function Nav() {
         {/* ── Mobile: phone + hamburger ── */}
         {isMobile && (
           <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 10 }}>
-            <a href="tel:+79004669477" style={{
+            <a href="tel:+79272867857" style={{
               fontFamily: "Manrope", fontSize: 13, fontWeight: 700,
               color: "#fff", textDecoration: "none", letterSpacing: "-0.01em",
-            }}>+7 (900) 466‑94‑77</a>
+            }}>+7 (927) 286‑78‑57</a>
             <button
               onClick={() => setMenuOpen(o => !o)}
               style={{
