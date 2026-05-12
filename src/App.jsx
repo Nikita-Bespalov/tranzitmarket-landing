@@ -137,7 +137,7 @@ function MainPage({ tweaks }) {
           // Desktop: scroll-scrubbed video
           <video
             ref={heroVideoRef}
-            muted playsInline preload="none"
+            muted playsInline preload="auto"
             src="/assets/warehouse/hero-bg.mp4"
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
           />
