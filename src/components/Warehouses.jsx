@@ -47,10 +47,8 @@ export function Warehouses() {
 // Добавляйте сюда файлы из public/assets/about/
 // Поддерживаются: .jpg .jpeg .png .webp (фото) и .webm .mp4 (видео)
 const ABOUT_MEDIA = [
-  "/assets/about/about-1.jpg",
-  "/assets/about/about-2.jpg",
-  "/assets/about/about-3.jpg",
-  "/assets/about/about-4.jpg",
+  "/assets/about/about-1.webp",
+  "/assets/about/about-2.webm",
 ];
 
 const isVideo = src => /\.(webm|mp4)$/i.test(src);
