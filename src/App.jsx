@@ -1,11 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { useIsMobile } from './hooks/useIsMobile';
 import { Nav } from './components/Nav';
 import { OfferBanner, Hero, MarketplaceStrip, PromiseBand } from './components/Hero';
-import { Benefits, StatsBand, Services, LogisticsBanner } from './components/Benefits';
+import { Benefits, StatsBand, Services } from './components/Benefits';
 import { Warehouses, AboutTeam, WorksCarousel } from './components/Warehouses';
 import { Clients } from './components/Clients';
 import { Contacts, Footer } from './components/Contacts';
+import { LogisticsPage } from './pages/LogisticsPage';
+import { Ic, Button, Section } from './components/Primitives';
 import './tokens.css';
 
 const DEFAULTS = {
@@ -14,8 +17,45 @@ const DEFAULTS = {
   showWorks: false,
 };
 
-function App() {
-  const [tweaks] = useState(DEFAULTS);
+function LogisticsTeaser() {
+  return (
+    <Section pad="default">
+      <div style={{
+        position: "relative", borderRadius: 24, overflow: "hidden",
+        background: `
+          radial-gradient(700px 300px at 100% 0%, rgba(207,166,74,.14), transparent 55%),
+          linear-gradient(135deg,#15151A 0%,#0E0E10 100%)`,
+        border: "1px solid var(--border-1)",
+        padding: "clamp(32px,4vw,48px)",
+        display: "flex", alignItems: "center", gap: 32, flexWrap: "wrap",
+      }}>
+        <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "linear-gradient(90deg,transparent,var(--gold-400) 50%,transparent)", opacity: 0.5 }}/>
+        <span style={{
+          flexShrink: 0, width: 56, height: 56, borderRadius: 14,
+          background: "var(--gold-gradient)",
+          display: "inline-flex", alignItems: "center", justifyContent: "center",
+          color: "#0A0A0B", boxShadow: "0 8px 24px -6px rgba(207,166,74,.5)",
+        }}>
+          <Ic.truck size={26}/>
+        </span>
+        <div style={{ flex: 1, minWidth: 240 }}>
+          <div style={{ fontFamily: "Manrope", fontSize: "clamp(18px,2vw,26px)", fontWeight: 700, color: "#fff", letterSpacing: "-0.015em", lineHeight: 1.2 }}>
+            Также занимаемся{" "}
+            <span style={{ backgroundImage: "var(--gold-gradient)", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              логистикой
+            </span>
+          </div>
+          <p style={{ fontSize: 14.5, color: "var(--fg-2)", marginTop: 8, lineHeight: 1.55 }}>
+            Забор, перевозка, карго из Китая, доставка по СНГ — независимо от фулфилмента.
+          </p>
+        </div>
+        <Button size="md" icon={<Ic.arrow/>} as="a" href="/logistics">Подробнее</Button>
+      </div>
+    </Section>
+  );
+}
+
+function MainPage({ tweaks }) {
   const heroWrapRef = useRef(null);
   const heroVideoRef = useRef(null);
   const isMobile = useIsMobile();
@@ -26,13 +66,11 @@ function App() {
     if (!video || !wrap) return;
 
     if (isMobile) {
-      // Mobile: just autoplay loop
       video.loop = true;
       video.play().catch(() => {});
       return;
     }
 
-    // Desktop: scroll scrub
     let onScroll = null;
     const init = () => {
       const dur = video.duration;
@@ -52,27 +90,9 @@ function App() {
     };
   }, [isMobile]);
 
-  useEffect(() => {
-    const root = document.documentElement;
-    const palettes = {
-      "warm-gold": { g200: "#E8CF82", g400: "#CFA64A", g500: "#C1963C", g600: "#A87E2C" },
-      "champagne": { g200: "#F0DEAA", g400: "#D9BD6E", g500: "#C9A953", g600: "#9F8235" },
-      "rose-gold": { g200: "#F0C9A8", g400: "#D9986A", g500: "#C28456", g600: "#9C6638" },
-      "platinum":  { g200: "#E2E2E6", g400: "#B8B8C0", g500: "#9C9CA6", g600: "#74747F" },
-    };
-    const p = palettes[tweaks.accentMode] || palettes["warm-gold"];
-    root.style.setProperty("--gold-200", p.g200);
-    root.style.setProperty("--gold-400", p.g400);
-    root.style.setProperty("--gold-500", p.g500);
-    root.style.setProperty("--gold-600", p.g600);
-    root.style.setProperty("--gold-gradient",
-      `linear-gradient(135deg, ${p.g200} 0%, ${p.g400} 40%, ${p.g600} 100%)`);
-  }, [tweaks.accentMode]);
-
   return (
     <div>
       <Nav />
-      {/* ── Video-backed block: OfferBanner + Hero ── */}
       <div ref={heroWrapRef} style={{ position: "relative", overflow: "hidden" }}>
         <video ref={heroVideoRef} muted playsInline preload="auto"
           src="/assets/warehouse/hero-bg.mp4"
@@ -92,7 +112,7 @@ function App() {
       <Benefits />
       {tweaks.showStatsBand && <StatsBand />}
       <Services />
-      <LogisticsBanner />
+      <LogisticsTeaser />
       <Warehouses />
       <AboutTeam />
       <Clients />
@@ -107,9 +127,36 @@ function App() {
         <a href="#" className="fab" title="Telegram">
           <img src="/assets/icon-telegram.png" alt="Telegram" />
         </a>
-
       </div>
     </div>
+  );
+}
+
+function App() {
+  const [tweaks] = useState(DEFAULTS);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const palettes = {
+      "warm-gold": { g200: "#E8CF82", g400: "#CFA64A", g500: "#C1963C", g600: "#A87E2C" },
+      "champagne": { g200: "#F0DEAA", g400: "#D9BD6E", g500: "#C9A953", g600: "#9F8235" },
+      "rose-gold": { g200: "#F0C9A8", g400: "#D9986A", g500: "#C28456", g600: "#9C6638" },
+      "platinum":  { g200: "#E2E2E6", g400: "#B8B8C0", g500: "#9C9CA6", g600: "#74747F" },
+    };
+    const p = palettes[tweaks.accentMode] || palettes["warm-gold"];
+    root.style.setProperty("--gold-200", p.g200);
+    root.style.setProperty("--gold-400", p.g400);
+    root.style.setProperty("--gold-500", p.g500);
+    root.style.setProperty("--gold-600", p.g600);
+    root.style.setProperty("--gold-gradient",
+      `linear-gradient(135deg, ${p.g200} 0%, ${p.g400} 40%, ${p.g600} 100%)`);
+  }, [tweaks.accentMode]);
+
+  return (
+    <Routes>
+      <Route path="/" element={<MainPage tweaks={tweaks}/>}/>
+      <Route path="/logistics" element={<LogisticsPage/>}/>
+    </Routes>
   );
 }
 

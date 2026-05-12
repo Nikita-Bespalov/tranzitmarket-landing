@@ -11,7 +11,7 @@ const iconBtn = {
 
 const links = [
   ["Фулфилмент", "#services"],
-  ["Цены", "#pricing"],
+  ["Логистика", "/logistics"],
   ["О нас", "#about"],
   ["Контакты", "#contact"],
   ["Калькулятор", "#calc"],
