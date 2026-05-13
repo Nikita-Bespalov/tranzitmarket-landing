@@ -125,7 +125,7 @@ function MainPage({ tweaks }) {
       <Nav />
 
       {/* ── Hero block: static image on mobile, video scrub on desktop ── */}
-      <div ref={heroWrapRef} style={{ position: "relative", overflow: "hidden" }}>
+      <div ref={heroWrapRef} style={{ position: "relative", overflow: "hidden", paddingTop: isMobile ? 64 : 76 }}>
         {isMobile ? (
           // Mobile: lightweight static background
           <img

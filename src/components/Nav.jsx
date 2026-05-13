@@ -42,7 +42,7 @@ export function Nav() {
 
   return (
     <header style={{
-      position: "sticky", top: 0, zIndex: 50,
+      position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
       padding: scrolled ? "10px 16px" : "16px 16px",
       transition: "padding 280ms cubic-bezier(.2,.7,.2,1)",
       pointerEvents: "none",
