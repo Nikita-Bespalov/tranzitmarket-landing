@@ -129,7 +129,7 @@ function MainPage({ tweaks }) {
         {isMobile ? (
           // Mobile: lightweight static background
           <img
-            src="/assets/warehouse/hero-mobile.png"
+            src="/assets/warehouse/hero-mobile.jpg"
             alt=""
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", zIndex: 0 }}
           />
