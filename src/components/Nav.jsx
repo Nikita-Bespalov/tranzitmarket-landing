@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button, Ic } from './Primitives';
 import { useIsMobile } from '../hooks/useIsMobile';
+import { useModal } from '../context/ModalContext';
 
 const iconBtn = {
   width: 38, height: 38, borderRadius: 999,
@@ -15,7 +16,6 @@ const links = [
   ["Логистика", "/logistics"],
   ["О нас", "#about"],
   ["Контакты", "#contact"],
-  ["Калькулятор", "#calc"],
   ["Блог", "/blog/"],
 ];
 
@@ -25,6 +25,7 @@ export function Nav() {
   const isMobile = useIsMobile();
   const { pathname } = useLocation();
   const isHome = pathname === '/';
+  const openModal = useModal();
 
   // If we're not on the home page, prefix anchor links with '/'
   const resolveHref = (h) => (h.startsWith('#') && !isHome) ? `/${h}` : h;
@@ -127,7 +128,7 @@ export function Nav() {
                 fontFamily: "Inter", fontWeight: 500, letterSpacing: "0.02em", textDecoration: "none",
               }}>tranzitmarket58@yandex.ru</a>
             </div>
-            <Button size="sm" as="a" href={resolveHref("#contact")}>Обратный звонок</Button>
+            <Button size="sm" onClick={openModal}>Обратный звонок</Button>
           </div>
         )}
 

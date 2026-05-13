@@ -1,6 +1,7 @@
 import React from 'react';
 import { Section, Eyebrow, Button, Ic } from './Primitives';
 import { useIsMobile } from '../hooks/useIsMobile';
+import { useModal } from '../context/ModalContext';
 
 const msgPill = {
   display: "inline-flex", alignItems: "center", gap: 10,
@@ -60,6 +61,7 @@ function MapPin({ x, y, label, primary }) {
 
 export function Contacts() {
   const isMobile = useIsMobile();
+  const openModal = useModal();
   return (
     <Section id="contact" pad="default">
       <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "minmax(0, 1fr) minmax(0, 1.3fr)", gap: 18 }}>
@@ -74,7 +76,7 @@ export function Contacts() {
               <div style={{ marginBottom: 14 }}><Eyebrow>Контакты</Eyebrow></div>
               <h2 style={{ fontFamily: "Manrope", fontSize: "clamp(28px, 3vw, 40px)", fontWeight: 700, letterSpacing: "-0.025em", lineHeight: 1.05, margin: 0, color: "#fff" }}>Наши контакты</h2>
             </div>
-            <Button size="sm" icon={<Ic.phone size={14}/>}>Перезвоните мне</Button>
+            <Button size="sm" icon={<Ic.phone size={14}/>} onClick={openModal}>Перезвоните мне</Button>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
             <ContactRow icon={<Ic.pin size={18}/>} label="Адреса складов">
