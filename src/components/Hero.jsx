@@ -186,8 +186,8 @@ export function Hero() {
 
 export function MarketplaceStrip() {
   const items = ["Wildberries", "Ozon", "Яндекс.Маркет", "Lamoda", "Avito", "AliExpress", "СберМегаМаркет", "KazanExpress"];
-  // duplicate for seamless loop
-  const track = [...items, ...items];
+  // Triple-copy so loop is seamless on any screen width
+  const track = [...items, ...items, ...items];
   return (
     <section style={{
       borderTop: "1px solid var(--border-1)", borderBottom: "1px solid var(--border-1)",
@@ -202,18 +202,20 @@ export function MarketplaceStrip() {
           whiteSpace: "nowrap",
         }}>Работаем с</div>
 
-        {/* Scrolling track */}
+        {/* Scrolling track — no flex gap: spacing is baked into each item via paddingRight */}
         <div style={{ overflow: "hidden", flex: 1 }}>
           <div style={{
-            display: "flex", alignItems: "center", gap: 48,
+            display: "flex", alignItems: "center",
             width: "max-content",
-            animation: "marquee 18s linear infinite",
+            willChange: "transform",
+            animation: "marquee 24s linear infinite",
           }}>
             {track.map((name, i) => (
               <span key={i} style={{
                 fontFamily: "Manrope", fontSize: 19, fontWeight: 700,
                 letterSpacing: "-0.02em", color: "var(--fg-2)",
                 opacity: 0.7, flexShrink: 0, whiteSpace: "nowrap",
+                paddingRight: 56,
               }}>{name}</span>
             ))}
           </div>
