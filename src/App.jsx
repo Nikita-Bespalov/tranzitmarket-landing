@@ -129,9 +129,9 @@ function MainPage({ tweaks }) {
         {isMobile ? (
           // Mobile: lightweight static background
           <img
-            src="/assets/warehouse/warehouse-main.jpeg"
+            src="/assets/warehouse/hero-mobile.png"
             alt=""
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", zIndex: 0 }}
           />
         ) : (
           // Desktop: scroll-scrubbed video
