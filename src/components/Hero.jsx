@@ -3,6 +3,62 @@ import { Button, Eyebrow, Breadcrumb, Photo, Section, Ic } from './Primitives';
 import { useIsMobile } from '../hooks/useIsMobile';
 
 export function OfferBanner() {
+  const isMobile = useIsMobile();
+
+  // Mobile: compact single-row strip
+  if (isMobile) {
+    return (
+      <section style={{ padding: "0 12px", marginTop: 8 }}>
+        <div style={{
+          position: "relative", borderRadius: 16, overflow: "hidden",
+          background: "linear-gradient(135deg, #17171A 0%, #0A0A0B 100%)",
+          border: "1px solid var(--border-gold)",
+          padding: "14px 16px",
+          boxShadow: "0 10px 32px -10px rgba(207,166,74,.22)",
+        }}>
+          <div style={{
+            position: "absolute", top: 0, left: 0, right: 0, height: 1,
+            background: "linear-gradient(90deg, transparent, var(--gold-400), transparent)",
+          }}/>
+          {/* Row 1: badge + date */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 10 }}>
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 7,
+              padding: "5px 11px", borderRadius: 999,
+              background: "var(--gold-gradient)",
+              color: "#0A0A0B", fontWeight: 700, fontSize: 10.5,
+              letterSpacing: "0.1em", textTransform: "uppercase",
+            }}>
+              <Ic.bolt size={11}/> Спецпредложение
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <Ic.clock size={13} style={{ color: "var(--gold-400)" }}/>
+              <span style={{ fontFamily: "Manrope", fontWeight: 800, fontSize: 13, color: "#fff" }}>до 31 мая</span>
+            </div>
+          </div>
+          {/* Row 2: text */}
+          <div style={{
+            fontFamily: "Manrope", fontSize: 15, fontWeight: 700,
+            color: "#fff", letterSpacing: "-0.015em", lineHeight: 1.3, marginBottom: 12,
+          }}>
+            Первый месяц хранения{" "}
+            <span style={{
+              backgroundImage: "var(--gold-gradient)",
+              WebkitBackgroundClip: "text", backgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}>бесплатно</span>
+            {" "}— для новых клиентов
+          </div>
+          {/* Row 3: CTA */}
+          <Button size="sm" icon={<Ic.arrow/>} as="a" href="#contact" style={{ width: "100%", justifyContent: "center" }}>
+            Забронировать тариф
+          </Button>
+        </div>
+      </section>
+    );
+  }
+
+  // Desktop: original layout
   return (
     <section style={{ padding: "0 16px", marginTop: 8 }}>
       <div style={{
