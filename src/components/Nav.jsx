@@ -16,6 +16,7 @@ const links = [
   ["О нас", "#about"],
   ["Контакты", "#contact"],
   ["Калькулятор", "#calc"],
+  ["Блог", "/blog/"],
 ];
 
 export function Nav() {
