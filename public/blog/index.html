@@ -150,6 +150,57 @@
     window.addEventListener('scroll', () => {
       hdr.classList.toggle('scrolled', window.scrollY > 12);
     }, { passive: true });
+
+    // ── Load posts from posts.json (pushed by auto-posting service) ──────────
+    (async function loadPosts() {
+      let posts;
+      try {
+        const res = await fetch('/blog/posts.json');
+        if (!res.ok) return; // file not yet uploaded → show empty state
+        posts = await res.json();
+      } catch (e) {
+        return; // network error → show empty state
+      }
+
+      if (!Array.isArray(posts) || posts.length === 0) return;
+
+      function formatDate(iso) {
+        return new Date(iso).toLocaleDateString('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' });
+      }
+
+      const grid = document.createElement('div');
+      grid.className = 'grid';
+
+      posts.forEach(function(p) {
+        const card = document.createElement('a');
+        card.className = 'card';
+        card.href = '/blog/' + p.slug + '/';
+
+        const imgHtml = p.image_url
+          ? '<img src="' + p.image_url + '" alt="' + (p.title || '') + '" loading="lazy">'
+          : '';
+        const tagHtml = p.topic_category
+          ? '<span class="tag">' + p.topic_category + '</span>'
+          : '';
+        const excerptHtml = p.meta_description
+          ? '<p class="card-excerpt">' + p.meta_description + '</p>'
+          : '';
+
+        card.innerHTML =
+          '<div class="card-img">' + imgHtml + (p.topic_category ? tagHtml : '') + '</div>' +
+          '<div class="card-body">' +
+            '<h2 class="card-title">' + p.title + '</h2>' +
+            excerptHtml +
+            '<div class="card-date">' + formatDate(p.created_at) + '</div>' +
+          '</div>';
+
+        grid.appendChild(card);
+      });
+
+      const main = document.querySelector('main.container');
+      main.innerHTML = '';
+      main.appendChild(grid);
+    })();
   </script>
 
 </body>

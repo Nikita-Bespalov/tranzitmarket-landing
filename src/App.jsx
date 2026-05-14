@@ -73,26 +73,67 @@ function MainPage({ tweaks }) {
   const rafRef = useRef(null);
   const isMobile = useIsMobile();
 
-  // Desktop only: scroll-scrub with rAF throttle
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [minTimeDone, setMinTimeDone] = useState(false);
+  const [loaderGone, setLoaderGone] = useState(false);
+
+  // Минимум 700мс чтобы лоадер был виден даже если видео в кэше
+  useEffect(() => {
+    const t = setTimeout(() => setMinTimeDone(true), 700);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Fallback — скрываем лоадер через 5 сек в любом случае
+  useEffect(() => {
+    const t = setTimeout(() => { setVideoLoaded(true); setMinTimeDone(true); }, 5000);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Fade-out когда оба условия выполнены
+  useEffect(() => {
+    if (videoLoaded && minTimeDone) {
+      setTimeout(() => setLoaderGone(true), 550);
+    }
+  }, [videoLoaded, minTimeDone]);
+
+  const videoReady = videoLoaded && minTimeDone;
+  const markReady = () => setVideoLoaded(true);
+
+  // Desktop only: scroll-scrub with adaptive lerp for smooth seeking
   useEffect(() => {
     if (isMobile) return;
     const video = heroVideoRef.current;
     const wrap  = heroWrapRef.current;
     if (!video || !wrap) return;
 
-    let onScroll = null;
+    let targetProgress = 0;
+    let smoothProgress = 0;
+    let animId = null;
+
+    const getTarget = () => {
+      const top = wrap.getBoundingClientRect().top + window.scrollY;
+      return Math.max(0, Math.min(1, (window.scrollY - top) / wrap.offsetHeight));
+    };
+
+    const tick = () => {
+      const diff = targetProgress - smoothProgress;
+      // faster catch-up when far, slower when close — hides micro-jitter
+      const speed = Math.abs(diff) > 0.05 ? 0.18 : 0.10;
+      smoothProgress += diff * speed;
+      video.currentTime = smoothProgress * video.duration;
+      if (Math.abs(diff) > 0.001) {
+        animId = requestAnimationFrame(tick);
+      } else {
+        animId = null;
+      }
+    };
+
+    const onScroll = () => {
+      targetProgress = getTarget();
+      if (!animId) animId = requestAnimationFrame(tick);
+    };
 
     const init = () => {
-      const dur = video.duration;
-      onScroll = () => {
-        if (rafRef.current) return;               // skip if frame already queued
-        rafRef.current = requestAnimationFrame(() => {
-          const top      = wrap.getBoundingClientRect().top + window.scrollY;
-          const progress = Math.max(0, Math.min(1, (window.scrollY - top) / wrap.offsetHeight));
-          video.currentTime = progress * dur;
-          rafRef.current = null;
-        });
-      };
       window.addEventListener('scroll', onScroll, { passive: true });
       onScroll();
     };
@@ -102,8 +143,8 @@ function MainPage({ tweaks }) {
 
     return () => {
       video.removeEventListener('loadedmetadata', init);
-      if (onScroll) window.removeEventListener('scroll', onScroll);
-      if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; }
+      window.removeEventListener('scroll', onScroll);
+      if (animId) { cancelAnimationFrame(animId); animId = null; }
     };
   }, [isMobile]);
 
@@ -131,6 +172,7 @@ function MainPage({ tweaks }) {
           <img
             src="/assets/warehouse/hero-mobile.jpg"
             alt=""
+            onLoad={markReady}
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", zIndex: 0 }}
           />
         ) : (
@@ -139,6 +181,7 @@ function MainPage({ tweaks }) {
             ref={heroVideoRef}
             muted playsInline preload="auto"
             src="/assets/warehouse/hero-bg.mp4"
+            onCanPlay={markReady}
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
           />
         )}
@@ -165,6 +208,40 @@ function MainPage({ tweaks }) {
           <img src="/assets/icon-telegram.png" alt="Telegram" />
         </a>
       </div>
+
+      {/* ── Loading screen ── */}
+      {!loaderGone && (
+        <>
+          <style>{`@keyframes tm-spin{to{transform:rotate(360deg)}}`}</style>
+          <div style={{
+            position: "fixed", inset: 0, zIndex: 9999,
+            background: "#0A0A0B",
+            display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "center", gap: 20,
+            transition: "opacity 0.5s ease",
+            opacity: videoReady ? 0 : 1,
+            pointerEvents: videoReady ? "none" : "all",
+          }}>
+            <img src="/assets/logo-preloader.png" alt="" style={{ width: 64, height: 64 }} />
+            <div style={{
+              fontFamily: "Manrope, sans-serif", fontWeight: 800,
+              fontSize: 15, letterSpacing: "0.12em",
+              background: "linear-gradient(135deg,#E8CF82,#CFA64A)",
+              WebkitBackgroundClip: "text", backgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}>
+              ТРАНЗИТМАРКЕТ
+            </div>
+            {/* spinner */}
+            <div style={{
+              width: 32, height: 32, borderRadius: "50%",
+              border: "2px solid rgba(207,166,74,0.2)",
+              borderTopColor: "#CFA64A",
+              animation: "tm-spin 0.8s linear infinite",
+            }}/>
+          </div>
+        </>
+      )}
     </div>
   );
 }
