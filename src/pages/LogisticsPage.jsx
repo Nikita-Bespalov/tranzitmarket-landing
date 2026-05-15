@@ -57,12 +57,19 @@ export function LogisticsPage() {
       <section style={{
         padding: isMobile ? "8px 16px 56px" : "8px 28px clamp(64px,8vw,100px)",
         marginTop: isMobile ? 64 : 76,
-        background: `
-          radial-gradient(900px 500px at 80% 20%, rgba(207,166,74,.13), transparent 55%),
-          radial-gradient(600px 400px at 10% 80%, rgba(207,166,74,.07), transparent 55%),
-          #0A0A0B`,
         position: "relative", overflow: "hidden",
       }}>
+        {/* Hero background image */}
+        <img src="/assets/logistics-hero.jpg" alt="" style={{
+          position: "absolute", inset: 0, width: "100%", height: "100%",
+          objectFit: "cover", objectPosition: "center 40%", zIndex: 0,
+        }}/>
+        {/* Dark overlay */}
+        <div style={{
+          position: "absolute", inset: 0, zIndex: 1,
+          background: "linear-gradient(135deg, rgba(10,10,11,.85) 0%, rgba(10,10,11,.60) 60%, rgba(10,10,11,.75) 100%)",
+        }}/>
+        <div style={{ position: "relative", zIndex: 2 }}>
         {/* ── Offer banner inside hero ── */}
         <div style={{ maxWidth: 1320, margin: "0 auto", marginBottom: isMobile ? 24 : 32 }}>
           <div style={{
@@ -154,6 +161,7 @@ export function LogisticsPage() {
             </div>
           </div>
         </div>
+        </div>{/* /zIndex:2 */}
       </section>
 
       {/* ── Features grid ── */}
