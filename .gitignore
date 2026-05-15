@@ -23,3 +23,9 @@ dist-ssr
 *.sln
 *.sw?
 .vercel
+graphify-out/
+.claude/
+photo /
+public/assets/about/*-original.*
+public/assets/warehouse/*-original.*
+public/assets/clients/Thumbs.db
