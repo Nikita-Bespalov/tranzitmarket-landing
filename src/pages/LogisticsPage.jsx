@@ -55,7 +55,7 @@ export function LogisticsPage() {
 
       {/* ── Hero ── */}
       <section style={{
-        padding: isMobile ? "8px 16px 56px" : "8px 28px clamp(64px,8vw,100px)",
+        padding: isMobile ? "8px 16px 72px" : "8px 28px clamp(100px,12vw,160px)",
         marginTop: isMobile ? 64 : 76,
         position: "relative", overflow: "hidden",
       }}>
