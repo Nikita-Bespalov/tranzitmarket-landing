@@ -67,7 +67,7 @@ export function LogisticsPage() {
         {/* Dark overlay */}
         <div style={{
           position: "absolute", inset: 0, zIndex: 1,
-          background: "linear-gradient(135deg, rgba(10,10,11,.85) 0%, rgba(10,10,11,.60) 60%, rgba(10,10,11,.75) 100%)",
+          background: "linear-gradient(to bottom, #0A0A0B 0%, rgba(10,10,11,.55) 30%, rgba(10,10,11,.55) 70%, #0A0A0B 100%)",
         }}/>
         <div style={{ position: "relative", zIndex: 2 }}>
         {/* ── Offer banner inside hero ── */}
