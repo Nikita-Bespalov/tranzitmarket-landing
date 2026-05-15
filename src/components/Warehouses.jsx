@@ -49,6 +49,9 @@ export function Warehouses() {
 const ABOUT_MEDIA = [
   "/assets/about/about-1.webp",
   "/assets/about/about-2.webm",
+  "/assets/about/about-3.webp",
+  "/assets/about/about-4.webp",
+  "/assets/about/about-3.webm",
 ];
 
 const isVideo = src => /\.(webm|mp4)$/i.test(src);
