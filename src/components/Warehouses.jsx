@@ -37,7 +37,7 @@ export function Warehouses() {
       <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)", gap: 14, marginBottom: 14 }}>
         {items.slice(0,4).map((it, i) => <Photo key={i} {...it} aspect={isMobile ? "4/3" : it.aspect}/>)}
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1.2fr 1fr 1fr", gap: 14 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: 14 }}>
         {items.slice(4).map((it, i) => <Photo key={i} {...it} aspect={isMobile ? "4/3" : it.aspect}/>)}
       </div>
     </Section>
