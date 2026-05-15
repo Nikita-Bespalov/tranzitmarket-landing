@@ -91,6 +91,72 @@ export function LogisticsPage() {
         </div>
       </section>
 
+      {/* ── Offer banner ── */}
+      <section style={{ padding: isMobile ? "8px 12px 0" : "8px 16px 0" }}>
+        <div style={{
+          maxWidth: 1320, margin: "0 auto",
+          position: "relative", borderRadius: isMobile ? 16 : 20, overflow: "hidden",
+          background: `
+            radial-gradient(700px 360px at 85% 50%, rgba(207,166,74,.22), transparent 65%),
+            linear-gradient(135deg, #15151A 0%, #0A0A0B 100%)`,
+          border: "1px solid var(--border-gold)",
+          padding: isMobile ? "14px 16px" : "20px 28px",
+          display: "flex", alignItems: "center", gap: isMobile ? 12 : 24, flexWrap: "wrap",
+          boxShadow: "0 18px 50px -16px rgba(207,166,74,.25)",
+        }}>
+          <div style={{
+            position: "absolute", top: 0, left: 0, right: 0, height: 1,
+            background: "linear-gradient(90deg, transparent, var(--gold-400), transparent)",
+          }}/>
+          <div style={{
+            flexShrink: 0,
+            display: "inline-flex", alignItems: "center", gap: isMobile ? 7 : 10,
+            padding: isMobile ? "5px 11px" : "8px 14px", borderRadius: 999,
+            background: "var(--gold-gradient)",
+            color: "#0A0A0B", fontWeight: 700, fontSize: isMobile ? 10.5 : 12,
+            letterSpacing: "0.12em", textTransform: "uppercase",
+            boxShadow: "0 6px 18px -4px rgba(207,166,74,.5)",
+          }}>
+            <Ic.bolt size={isMobile ? 11 : 14}/> Спецпредложение
+          </div>
+          <div style={{ flex: 1, minWidth: 240 }}>
+            <div style={{
+              fontFamily: "Manrope", fontSize: isMobile ? 15 : "clamp(17px,1.6vw,22px)",
+              fontWeight: 700, color: "#fff", letterSpacing: "-0.015em", lineHeight: 1.3,
+            }}>
+              Первый месяц{" "}
+              <span style={{
+                backgroundImage: "var(--gold-gradient)",
+                WebkitBackgroundClip: "text", backgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}>скидка 30%</span>
+              {" "}на перевозки — для новых клиентов.
+            </div>
+            {!isMobile && (
+              <div style={{ fontSize: 13.5, color: "var(--fg-2)", marginTop: 6, lineHeight: 1.5 }}>
+                Бесплатный вывоз по Пензе · расчёт за 2 часа · договор за 1 день.
+              </div>
+            )}
+          </div>
+          <div style={{
+            flexShrink: 0,
+            display: "flex", alignItems: "center", gap: isMobile ? 6 : 12,
+            padding: isMobile ? "8px 12px" : "10px 16px", borderRadius: 12,
+            background: "rgba(10,10,11,.5)", border: "1px solid var(--border-1)",
+          }}>
+            <Ic.clock size={isMobile ? 13 : 16} style={{ color: "var(--gold-400)" }}/>
+            <div style={{ lineHeight: 1.2 }}>
+              <div style={{ fontFamily: "Manrope", fontWeight: 800, fontSize: isMobile ? 13 : 16, color: "#fff" }}>до 31 мая</div>
+              {!isMobile && <div style={{ fontSize: 11, color: "var(--fg-3)" }}>осталось 16 дней</div>}
+            </div>
+          </div>
+          <Button size={isMobile ? "sm" : "md"} icon={<Ic.arrow/>} as="a" href="#contact"
+            style={isMobile ? { width: "100%", justifyContent: "center", marginTop: 4 } : {}}>
+            Получить расчёт
+          </Button>
+        </div>
+      </section>
+
       {/* ── Features grid ── */}
       <Section pad="default">
         <div style={{ marginBottom: 48 }}>
