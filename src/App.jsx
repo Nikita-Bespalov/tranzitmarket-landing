@@ -125,13 +125,15 @@ function MainPage({ tweaks }) {
     // Continuous rAF — always running for smooth lerp
     const rafLoop = () => {
       const diff = targetProgress - smoothProgress;
-      const factor = Math.abs(diff) > 0.08 ? 0.28 : 0.12;
-      smoothProgress += diff * factor;
-      if (video.readyState >= 2 && video.duration) {
-        const newTime = smoothProgress * video.duration;
-        // Порог 16мс (1 кадр при 60fps) — не обновляем если изменение незначительное
-        if (Math.abs(newTime - video.currentTime) > 0.016) {
-          video.currentTime = newTime;
+      // Если уже достаточно близко — фиксируем точно и не трогаем
+      if (Math.abs(diff) > 0.0008) {
+        const factor = Math.abs(diff) > 0.08 ? 0.28 : 0.12;
+        smoothProgress += diff * factor;
+        if (video.readyState >= 2 && video.duration) {
+          const newTime = Math.min(smoothProgress * video.duration, video.duration - 0.001);
+          if (Math.abs(newTime - video.currentTime) > 0.016) {
+            video.currentTime = newTime;
+          }
         }
       }
       rafId = requestAnimationFrame(rafLoop);
