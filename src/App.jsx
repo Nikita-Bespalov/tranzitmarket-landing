@@ -97,7 +97,13 @@ function MainPage({ tweaks }) {
   }, [videoLoaded, minTimeDone]);
 
   const videoReady = videoLoaded && minTimeDone;
-  const markReady = () => setVideoLoaded(true);
+  // При canPlay — сразу разблокируем Chrome (play→pause) чтобы первый кадр отрисовался
+  const markReady = () => {
+    if (heroVideoRef.current && !isMobile) {
+      heroVideoRef.current.play().then(() => heroVideoRef.current?.pause()).catch(() => {});
+    }
+    setVideoLoaded(true);
+  };
 
   // Desktop only: scroll-scrub with continuous rAF + Chrome unlock trick
   useEffect(() => {
