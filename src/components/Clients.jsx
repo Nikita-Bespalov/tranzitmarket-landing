@@ -19,7 +19,7 @@ export function Clients() {
     <Section pad="default">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", marginBottom: 48, gap: 24, flexWrap: "wrap" }}>
         <div style={{ maxWidth: 720 }}>
-          <div style={{ marginBottom: 18 }}><Eyebrow>Их клиенты</Eyebrow></div>
+          <div style={{ marginBottom: 18 }}><Eyebrow>Наши клиенты</Eyebrow></div>
           <h2 style={{
             fontFamily: "Manrope", fontSize: "clamp(34px, 3.8vw, 56px)",
             fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.05, margin: 0, color: "#fff",
