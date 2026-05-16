@@ -1,7 +1,4 @@
 import { useState, useEffect, useRef, lazy, Suspense } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-gsap.registerPlugin(ScrollTrigger);
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { useIsMobile } from './hooks/useIsMobile';
 import { Nav } from './components/Nav';
@@ -102,36 +99,57 @@ function MainPage({ tweaks }) {
   const videoReady = videoLoaded && minTimeDone;
   const markReady = () => setVideoLoaded(true);
 
-  // Desktop only: GSAP ScrollTrigger video scrub
+  // Desktop only: scroll-scrub with continuous rAF + Chrome unlock trick
   useEffect(() => {
     if (isMobile) return;
     const video = heroVideoRef.current;
     const wrap  = heroWrapRef.current;
     if (!video || !wrap) return;
 
-    let ctx;
+    let targetProgress = 0;
+    let smoothProgress = 0;
+    let unlocked = false;
+    let rafId;
 
-    const init = () => {
-      ctx = gsap.context(() => {
-        gsap.to(video, {
-          currentTime: video.duration || 8,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: wrap,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 0.5,
-          },
-        });
-      });
+    const getTarget = () => {
+      const top = wrap.getBoundingClientRect().top + window.scrollY;
+      const scrollable = wrap.offsetHeight - window.innerHeight;
+      return Math.max(0, Math.min(1, (window.scrollY - top) / scrollable));
     };
 
-    if (video.readyState >= 1) init();
-    else video.addEventListener('loadedmetadata', init, { once: true });
+    // Continuous rAF — always running for smooth lerp
+    const rafLoop = () => {
+      const diff = targetProgress - smoothProgress;
+      const factor = Math.abs(diff) > 0.08 ? 0.28 : 0.12;
+      smoothProgress += diff * factor;
+      if (video.readyState >= 2 && video.duration) {
+        video.currentTime = smoothProgress * video.duration;
+      }
+      rafId = requestAnimationFrame(rafLoop);
+    };
+
+    // Chrome blocks scrub until user gesture — play→pause to unlock
+    const unlock = async () => {
+      if (!unlocked) {
+        unlocked = true;
+        try { await video.play(); video.pause(); } catch(e) {}
+      }
+    };
+
+    const onScroll = () => {
+      unlock();
+      targetProgress = getTarget();
+    };
+
+    video.load();
+    rafId = requestAnimationFrame(rafLoop);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('touchstart', unlock, { once: true });
 
     return () => {
-      video.removeEventListener('loadedmetadata', init);
-      ctx?.revert();
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', onScroll);
+      document.removeEventListener('touchstart', unlock);
     };
   }, [isMobile]);
 
