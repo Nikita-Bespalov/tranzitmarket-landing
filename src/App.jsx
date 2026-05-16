@@ -128,7 +128,11 @@ function MainPage({ tweaks }) {
       const factor = Math.abs(diff) > 0.08 ? 0.28 : 0.12;
       smoothProgress += diff * factor;
       if (video.readyState >= 2 && video.duration) {
-        video.currentTime = smoothProgress * video.duration;
+        const newTime = smoothProgress * video.duration;
+        // Порог 16мс (1 кадр при 60fps) — не обновляем если изменение незначительное
+        if (Math.abs(newTime - video.currentTime) > 0.016) {
+          video.currentTime = newTime;
+        }
       }
       rafId = requestAnimationFrame(rafLoop);
     };
