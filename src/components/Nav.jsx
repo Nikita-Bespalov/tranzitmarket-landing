@@ -27,8 +27,11 @@ export function Nav() {
   const isHome = pathname === '/';
   const openModal = useModal();
 
-  // If we're not on the home page, prefix anchor links with '/'
-  const resolveHref = (h) => (h.startsWith('#') && !isHome) ? `/${h}` : h;
+  // Если элемент есть на текущей странице — используем якорь, иначе идём на главную
+  const resolveHref = (h) => {
+    if (!h.startsWith('#') || isHome) return h;
+    return document.querySelector(h) ? h : `/${h}`;
+  };
 
   useEffect(() => {
     const onS = () => setScrolled(window.scrollY > 12);
