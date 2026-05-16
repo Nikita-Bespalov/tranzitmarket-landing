@@ -27,10 +27,15 @@ export function Nav() {
   const isHome = pathname === '/';
   const openModal = useModal();
 
-  // Если элемент есть на текущей странице — используем якорь, иначе идём на главную
+  // Секции которые есть на каждой странице
+  const pageSections = {
+    '/':          ['#about', '#contact', '#services', '#logistics'],
+    '/logistics': ['#contact'],
+  };
   const resolveHref = (h) => {
     if (!h.startsWith('#') || isHome) return h;
-    return document.querySelector(h) ? h : `/${h}`;
+    const sections = pageSections[pathname] || [];
+    return sections.includes(h) ? h : `/${h}`;
   };
 
   useEffect(() => {
