@@ -241,7 +241,16 @@ export function Hero() {
 }
 
 export function MarketplaceStrip() {
-  const items = ["Wildberries", "Ozon", "Яндекс.Маркет", "Lamoda", "Avito", "AliExpress", "СберМегаМаркет", "KazanExpress"];
+  const items = [
+    { name: "Wildberries",    icon: "/assets/marketplaces/wildberries.png" },
+    { name: "Ozon",           icon: "/assets/marketplaces/ozon.png" },
+    { name: "Яндекс.Маркет", icon: "/assets/marketplaces/yandex-market.png" },
+    { name: "Lamoda",         icon: "/assets/marketplaces/lamoda.png" },
+    { name: "Avito",          icon: "/assets/marketplaces/avito.png" },
+    { name: "AliExpress",     icon: "/assets/marketplaces/aliexpress.png" },
+    { name: "СберМегаМаркет", icon: "/assets/marketplaces/megamarket.png" },
+    { name: "KazanExpress",   icon: "/assets/marketplaces/kazanexpress.png" },
+  ];
   // Triple-copy so loop is seamless on any screen width
   const track = [...items, ...items, ...items];
   return (
@@ -249,7 +258,7 @@ export function MarketplaceStrip() {
       borderTop: "1px solid var(--border-1)", borderBottom: "1px solid var(--border-1)",
       background: "rgba(17,17,19,.5)", overflow: "hidden",
     }}>
-      <div style={{ padding: "20px 0", display: "flex", alignItems: "center" }}>
+      <div style={{ padding: "18px 0", display: "flex", alignItems: "center" }}>
         {/* Fixed label */}
         <div style={{
           fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase",
@@ -258,21 +267,36 @@ export function MarketplaceStrip() {
           whiteSpace: "nowrap",
         }}>Работаем с</div>
 
-        {/* Scrolling track — no flex gap: spacing is baked into each item via paddingRight */}
+        {/* Scrolling track */}
         <div style={{ overflow: "hidden", flex: 1 }}>
           <div style={{
             display: "flex", alignItems: "center",
             width: "max-content",
             willChange: "transform",
-            animation: "marquee 24s linear infinite",
+            animation: "marquee 28s linear infinite",
           }}>
-            {track.map((name, i) => (
+            {track.map((item, i) => (
               <span key={i} style={{
-                fontFamily: "Manrope", fontSize: 19, fontWeight: 700,
-                letterSpacing: "-0.02em", color: "var(--fg-2)",
-                opacity: 0.7, flexShrink: 0, whiteSpace: "nowrap",
-                paddingRight: 56,
-              }}>{name}</span>
+                display: "inline-flex", alignItems: "center", gap: 10,
+                flexShrink: 0, whiteSpace: "nowrap",
+                paddingRight: 52,
+                opacity: 0.75,
+              }}>
+                <img
+                  src={item.icon}
+                  alt={item.name}
+                  style={{
+                    width: 28, height: 28,
+                    borderRadius: 7,
+                    objectFit: "contain",
+                    flexShrink: 0,
+                  }}
+                />
+                <span style={{
+                  fontFamily: "Manrope", fontSize: 17, fontWeight: 700,
+                  letterSpacing: "-0.02em", color: "var(--fg-2)",
+                }}>{item.name}</span>
+              </span>
             ))}
           </div>
         </div>
