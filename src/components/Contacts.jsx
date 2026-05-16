@@ -179,8 +179,6 @@ export function Footer() {
             { label: "+7 (927) 286‑78‑57",       href: "tel:+79272867857" },
             { label: "+7 (900) 466‑94‑77",       href: "tel:+79004669477" },
             { label: "tranzitmarket58@yandex.ru", href: "mailto:tranzitmarket58@yandex.ru" },
-            { label: "Telegram",                  href: "#" },
-            { label: "MAX",                       href: "#" },
           ]}/>
         </div>
         <div style={{ paddingTop: 24, borderTop: "1px solid var(--border-1)", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
