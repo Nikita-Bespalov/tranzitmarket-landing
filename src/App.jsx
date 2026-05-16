@@ -114,7 +114,8 @@ function MainPage({ tweaks }) {
     const getTarget = () => {
       const top = wrap.getBoundingClientRect().top + window.scrollY;
       const scrollable = wrap.offsetHeight - window.innerHeight;
-      return Math.max(0, Math.min(1, (window.scrollY - top) / scrollable));
+      // Divide by 0.5 to slow scrub — video takes 2x longer to complete
+      return Math.max(0, Math.min(1, (window.scrollY - top) / scrollable * 0.5));
     };
 
     // Continuous rAF — always running for smooth lerp
@@ -171,32 +172,25 @@ function MainPage({ tweaks }) {
       <Nav />
 
       {/* ── Hero block: static image on mobile, video scrub on desktop ── */}
-      {isMobile ? (
-        // Mobile: simple static block
-        <div style={{ position: "relative", overflow: "hidden", paddingTop: 64 }}>
+      <div ref={heroWrapRef} style={{ position: "relative", overflow: "hidden", paddingTop: isMobile ? 64 : 76 }}>
+        {isMobile ? (
           <img
             src="/assets/warehouse/hero-mobile.jpg"
             alt=""
             onLoad={markReady}
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", zIndex: 0 }}
           />
-          {heroOverlay}
-        </div>
-      ) : (
-        // Desktop: 250vh scroll section with sticky frame for smooth scrub
-        <div ref={heroWrapRef} style={{ height: "250vh", position: "relative" }}>
-          <div style={{ position: "sticky", top: 0, height: "100vh", overflow: "hidden", paddingTop: 76 }}>
-            <video
-              ref={heroVideoRef}
-              muted playsInline preload="auto"
-              src="/assets/warehouse/hero-bg.mp4"
-              onCanPlay={markReady}
-              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
-            />
-            {heroOverlay}
-          </div>
-        </div>
-      )}
+        ) : (
+          <video
+            ref={heroVideoRef}
+            muted playsInline preload="auto"
+            src="/assets/warehouse/hero-bg.mp4"
+            onCanPlay={markReady}
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
+          />
+        )}
+        {heroOverlay}
+      </div>
 
       <MarketplaceStrip />
       <PromiseBand />
