@@ -134,21 +134,12 @@ function MainPage({ tweaks }) {
     };
 
     const init = () => {
-      // Wait until the full video is buffered before enabling scroll scrub
-      const startWhenBuffered = () => {
-        if (video.buffered.length > 0 &&
-            video.buffered.end(video.buffered.length - 1) >= video.duration - 0.1) {
-          window.addEventListener('scroll', onScroll, { passive: true });
-          onScroll();
-        } else {
-          video.addEventListener('progress', startWhenBuffered, { once: true });
-        }
-      };
-      startWhenBuffered();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
     };
 
-    if (video.readyState >= 1) init();
-    else video.addEventListener('loadedmetadata', init, { once: true });
+    if (video.readyState >= 4) init();
+    else video.addEventListener('canplaythrough', init, { once: true });
 
     return () => {
       video.removeEventListener('loadedmetadata', init);
