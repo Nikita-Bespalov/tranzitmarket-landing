@@ -80,8 +80,9 @@ export function Contacts() {
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
             <ContactRow icon={<Ic.pin size={18}/>} label="Адреса складов">
-              <div>г. Пенза, ул. Складская 9Б</div>
-              <div>г. Пенза, Промышленный проезд 7</div>
+              <div>г. Пенза, ул. Металлистов 10б</div>
+              <div>г. Пенза, ул. Ватутина 105а</div>
+              <div>г. Пенза, Проспект Победы 124</div>
             </ContactRow>
             <ContactRow icon={<Ic.clock size={18}/>} label="Режим работы">
               Пн–Сб с 10:00 до 20:00 · Вс по записи
@@ -105,35 +106,25 @@ export function Contacts() {
         {!isMobile && <div style={{
           position: "relative", borderRadius: 24, overflow: "hidden",
           border: "1px solid var(--border-1)",
-          background: `radial-gradient(circle at 30% 40%, rgba(207,166,74,.12), transparent 50%),
-            radial-gradient(circle at 70% 60%, rgba(207,166,74,.08), transparent 50%), #0F0F11`,
           minHeight: 520,
         }}>
-          <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.6 }}>
-            <defs>
-              <pattern id="mapGrid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M40 0H0V40" fill="none" stroke="rgba(207,166,74,.08)" strokeWidth="1"/>
-              </pattern>
-            </defs>
-            <rect width="800" height="600" fill="url(#mapGrid)"/>
-            <path d="M0 280 Q200 250 400 270 T800 240" stroke="rgba(207,166,74,.18)" strokeWidth="2" fill="none"/>
-            <path d="M0 380 Q300 360 500 400 T800 420" stroke="rgba(207,166,74,.14)" strokeWidth="2" fill="none"/>
-            <path d="M250 0 Q260 200 280 400 T300 600" stroke="rgba(207,166,74,.16)" strokeWidth="2" fill="none"/>
-            <path d="M580 0 Q570 200 600 400 T620 600" stroke="rgba(207,166,74,.12)" strokeWidth="2" fill="none"/>
-            {[[100,150,80,60],[220,330,60,90],[440,180,90,70],[640,320,70,80],[120,440,100,60],[500,420,80,70]].map(([x,y,w,h],i)=>(
-              <rect key={i} x={x} y={y} width={w} height={h} fill="rgba(207,166,74,.05)" stroke="rgba(207,166,74,.18)" strokeWidth="1" rx="2"/>
-            ))}
-          </svg>
-          <MapPin x="34%" y="48%" label="Складская 9Б" primary/>
-          <MapPin x="68%" y="62%" label="Промышленный пр. 7"/>
+          <iframe
+            src="https://yandex.ru/map-widget/v1/?ll=45.0178%2C53.1959&z=12&pt=45.0253%2C53.2100%2Cpmwtm1~45.0420%2C53.2150%2Cpmwtm2~44.9970%2C53.1950%2Cpmwtm3&l=map&lang=ru_RU"
+            width="100%"
+            height="100%"
+            style={{ position: "absolute", inset: 0, border: 0, display: "block" }}
+            allowFullScreen
+            title="Склады ТРАНЗИТМАРКЕТ в Пензе"
+          />
           <div style={{
             position: "absolute", top: 20, left: 20,
             padding: "10px 16px", borderRadius: 12,
             background: "rgba(10,10,11,.78)", backdropFilter: "blur(10px)",
             border: "1px solid var(--border-2)",
             fontSize: 13, color: "#fff", display: "flex", alignItems: "center", gap: 10,
+            pointerEvents: "none",
           }}>
-            <Ic.pin size={14}/> Пенза · 2 склада
+            <Ic.pin size={14}/> Пенза · 3 склада
           </div>
         </div>}
       </div>
