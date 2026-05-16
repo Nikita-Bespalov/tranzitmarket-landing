@@ -159,7 +159,7 @@ export function Footer() {
       padding: isMobile ? "40px 20px 24px" : "56px 28px 28px", marginTop: 40,
     }}>
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "minmax(220px, 1fr) repeat(4, minmax(0, auto))", gap: isMobile ? 32 : 56, marginBottom: 40 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "minmax(220px, 1fr) minmax(0, auto)", gap: isMobile ? 32 : 56, marginBottom: 40 }}>
           <div>
             <a href="#top" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", fontFamily: "Manrope", fontWeight: 800, fontSize: 18, letterSpacing: "-0.025em", color: "#fff" }}>
               <span style={{ width: 34, height: 34, borderRadius: 10, background: "var(--gold-gradient)", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -175,28 +175,8 @@ export function Footer() {
               <span style={{ fontSize: 12.5, color: "var(--fg-2)" }}>Сейчас работаем · принимаем заявки</span>
             </div>
           </div>
-          <FooterCol title="Услуги" links={[
-            { label: "Фулфилмент",    href: "/#services" },
-            { label: "Хранение",      href: "/#services" },
-            { label: "Маркировка",    href: "/#services" },
-            { label: "Упаковка",      href: "/#services" },
-            { label: "Отгрузка на МП", href: "/#services" },
-          ]}/>
-          <FooterCol title="Компания" links={[
-            { label: "О нас",      href: "/#about" },
-            { label: "Кейсы",      href: "#" },
-            { label: "Блог",       href: "/blog" },
-            { label: "Карьера",    href: "#" },
-            { label: "Реквизиты",  href: "#" },
-          ]}/>
-          <FooterCol title="Помощь" links={[
-            { label: "Калькулятор", href: "#" },
-            { label: "Договор",     href: "/offer.html" },
-            { label: "FAQ",         href: "#" },
-            { label: "Тарифы",      href: "#" },
-            { label: "Поддержка",   href: "/#contact" },
-          ]}/>
           <FooterCol title="Контакты" links={[
+            { label: "+7 (927) 286‑78‑57",       href: "tel:+79272867857" },
             { label: "+7 (900) 466‑94‑77",       href: "tel:+79004669477" },
             { label: "tranzitmarket58@yandex.ru", href: "mailto:tranzitmarket58@yandex.ru" },
             { label: "Telegram",                  href: "#" },
