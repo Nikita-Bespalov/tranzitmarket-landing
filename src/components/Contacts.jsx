@@ -137,12 +137,12 @@ function FooterCol({ title, links }) {
     <div>
       <div style={{ fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--gold-400)", fontWeight: 600, marginBottom: 16 }}>{title}</div>
       <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10 }}>
-        {links.map(l => (
-          <li key={l}>
-            <a href="#" style={{ fontSize: 13.5, color: "var(--fg-2)", textDecoration: "none", transition: "color 200ms", whiteSpace: "nowrap" }}
+        {links.map(({ label, href }) => (
+          <li key={label}>
+            <a href={href} style={{ fontSize: 13.5, color: "var(--fg-2)", textDecoration: "none", transition: "color 200ms", whiteSpace: "nowrap" }}
               onMouseEnter={e=>e.currentTarget.style.color="var(--gold-400)"}
               onMouseLeave={e=>e.currentTarget.style.color="var(--fg-2)"}
-            >{l}</a>
+            >{label}</a>
           </li>
         ))}
       </ul>
@@ -175,10 +175,33 @@ export function Footer() {
               <span style={{ fontSize: 12.5, color: "var(--fg-2)" }}>Сейчас работаем · принимаем заявки</span>
             </div>
           </div>
-          <FooterCol title="Услуги" links={["Фулфилмент", "Хранение", "Маркировка", "Упаковка", "Отгрузка на МП"]}/>
-          <FooterCol title="Компания" links={["О нас", "Кейсы", "Блог", "Карьера", "Реквизиты"]}/>
-          <FooterCol title="Помощь" links={["Калькулятор", "Договор", "FAQ", "Тарифы", "Поддержка"]}/>
-          <FooterCol title="Контакты" links={["+7 (900) 466‑94‑77", "tranzitmarket58@yandex.ru", "Telegram", "MAX"]}/>
+          <FooterCol title="Услуги" links={[
+            { label: "Фулфилмент",    href: "/#services" },
+            { label: "Хранение",      href: "/#services" },
+            { label: "Маркировка",    href: "/#services" },
+            { label: "Упаковка",      href: "/#services" },
+            { label: "Отгрузка на МП", href: "/#services" },
+          ]}/>
+          <FooterCol title="Компания" links={[
+            { label: "О нас",      href: "/#about" },
+            { label: "Кейсы",      href: "#" },
+            { label: "Блог",       href: "/blog" },
+            { label: "Карьера",    href: "#" },
+            { label: "Реквизиты",  href: "#" },
+          ]}/>
+          <FooterCol title="Помощь" links={[
+            { label: "Калькулятор", href: "#" },
+            { label: "Договор",     href: "/offer.html" },
+            { label: "FAQ",         href: "#" },
+            { label: "Тарифы",      href: "#" },
+            { label: "Поддержка",   href: "/#contact" },
+          ]}/>
+          <FooterCol title="Контакты" links={[
+            { label: "+7 (900) 466‑94‑77",       href: "tel:+79004669477" },
+            { label: "tranzitmarket58@yandex.ru", href: "mailto:tranzitmarket58@yandex.ru" },
+            { label: "Telegram",                  href: "#" },
+            { label: "MAX",                       href: "#" },
+          ]}/>
         </div>
         <div style={{ paddingTop: 24, borderTop: "1px solid var(--border-1)", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
           <div style={{ fontSize: 12, color: "var(--fg-3)" }}>© 2026 ТРАНЗИТМАРКЕТ. Все права защищены. С 2019 года.</div>
