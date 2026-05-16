@@ -112,10 +112,8 @@ function MainPage({ tweaks }) {
     let rafId;
 
     const getTarget = () => {
-      const top = wrap.getBoundingClientRect().top + window.scrollY;
-      const scrollable = wrap.offsetHeight - window.innerHeight;
-      // Divide by 0.5 to slow scrub — video takes 2x longer to complete
-      return Math.max(0, Math.min(1, (window.scrollY - top) / scrollable * 0.5));
+      // Scrub video over first 150vh of page scroll — same technique as bp project
+      return Math.max(0, Math.min(1, window.scrollY / (window.innerHeight * 1.5)));
     };
 
     // Continuous rAF — always running for smooth lerp
