@@ -171,27 +171,32 @@ function MainPage({ tweaks }) {
       <Nav />
 
       {/* ── Hero block: static image on mobile, video scrub on desktop ── */}
-      <div ref={heroWrapRef} style={{ position: "relative", overflow: "hidden", paddingTop: isMobile ? 64 : 76 }}>
-        {isMobile ? (
-          // Mobile: lightweight static background
+      {isMobile ? (
+        // Mobile: simple static block
+        <div style={{ position: "relative", overflow: "hidden", paddingTop: 64 }}>
           <img
             src="/assets/warehouse/hero-mobile.jpg"
             alt=""
             onLoad={markReady}
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", zIndex: 0 }}
           />
-        ) : (
-          // Desktop: scroll-scrubbed video
-          <video
-            ref={heroVideoRef}
-            muted playsInline preload="auto"
-            src="/assets/warehouse/hero-bg.mp4"
-            onCanPlay={markReady}
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
-          />
-        )}
-        {heroOverlay}
-      </div>
+          {heroOverlay}
+        </div>
+      ) : (
+        // Desktop: 250vh scroll section with sticky frame for smooth scrub
+        <div ref={heroWrapRef} style={{ height: "250vh", position: "relative" }}>
+          <div style={{ position: "sticky", top: 0, height: "100vh", overflow: "hidden", paddingTop: 76 }}>
+            <video
+              ref={heroVideoRef}
+              muted playsInline preload="auto"
+              src="/assets/warehouse/hero-bg.mp4"
+              onCanPlay={markReady}
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
+            />
+            {heroOverlay}
+          </div>
+        </div>
+      )}
 
       <MarketplaceStrip />
       <PromiseBand />
