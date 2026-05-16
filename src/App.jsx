@@ -1,4 +1,7 @@
 import { useState, useEffect, useRef, lazy, Suspense } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger);
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { useIsMobile } from './hooks/useIsMobile';
 import { Nav } from './components/Nav';
@@ -99,52 +102,36 @@ function MainPage({ tweaks }) {
   const videoReady = videoLoaded && minTimeDone;
   const markReady = () => setVideoLoaded(true);
 
-  // Desktop only: scroll-scrub with adaptive lerp for smooth seeking
+  // Desktop only: GSAP ScrollTrigger video scrub
   useEffect(() => {
     if (isMobile) return;
     const video = heroVideoRef.current;
     const wrap  = heroWrapRef.current;
     if (!video || !wrap) return;
 
-    let targetProgress = 0;
-    let smoothProgress = 0;
-    let animId = null;
-
-    const getTarget = () => {
-      const top = wrap.getBoundingClientRect().top + window.scrollY;
-      return Math.max(0, Math.min(1, (window.scrollY - top) / wrap.offsetHeight));
-    };
-
-    const tick = () => {
-      const diff = targetProgress - smoothProgress;
-      // faster catch-up when far, slower when close — hides micro-jitter
-      const speed = Math.abs(diff) > 0.05 ? 0.18 : 0.10;
-      smoothProgress += diff * speed;
-      video.currentTime = smoothProgress * video.duration;
-      if (Math.abs(diff) > 0.001) {
-        animId = requestAnimationFrame(tick);
-      } else {
-        animId = null;
-      }
-    };
-
-    const onScroll = () => {
-      targetProgress = getTarget();
-      if (!animId) animId = requestAnimationFrame(tick);
-    };
+    let ctx;
 
     const init = () => {
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
+      ctx = gsap.context(() => {
+        gsap.to(video, {
+          currentTime: video.duration || 8,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: wrap,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 0.5,
+          },
+        });
+      });
     };
 
-    if (video.readyState >= 4) init();
-    else video.addEventListener('canplaythrough', init, { once: true });
+    if (video.readyState >= 1) init();
+    else video.addEventListener('loadedmetadata', init, { once: true });
 
     return () => {
       video.removeEventListener('loadedmetadata', init);
-      window.removeEventListener('scroll', onScroll);
-      if (animId) { cancelAnimationFrame(animId); animId = null; }
+      ctx?.revert();
     };
   }, [isMobile]);
 
