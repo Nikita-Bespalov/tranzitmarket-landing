@@ -30,7 +30,7 @@ export function Nav() {
   // Секции которые есть на каждой странице
   const pageSections = {
     '/':          ['#about', '#contact', '#services', '#logistics'],
-    '/logistics': ['#contact'],
+    '/logistics': ['#about', '#contact'],
   };
   const resolveHref = (h) => {
     if (!h.startsWith('#') || isHome) return h;

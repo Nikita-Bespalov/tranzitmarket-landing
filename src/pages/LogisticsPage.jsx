@@ -165,7 +165,7 @@ export function LogisticsPage() {
       </section>
 
       {/* ── Features grid ── */}
-      <Section pad="default">
+      <Section id="about" pad="default">
         <div style={{ marginBottom: 48 }}>
           <div style={{ marginBottom: 16 }}><Eyebrow>Что мы делаем</Eyebrow></div>
           <h2 style={{
