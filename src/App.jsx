@@ -118,19 +118,19 @@ function MainPage({ tweaks }) {
     let rafId;
 
     const getTarget = () => {
-      // Scrub video over first 150vh of page scroll — same technique as bp project
-      return Math.max(0, Math.min(1, window.scrollY / (window.innerHeight * 1.5)));
+      // Не доходим до самого конца видео (98%) — последние кадры вызывают "ended" мерцание
+      return Math.max(0, Math.min(0.98, window.scrollY / (window.innerHeight * 1.5)));
     };
 
     // Continuous rAF — always running for smooth lerp
     const rafLoop = () => {
       const diff = targetProgress - smoothProgress;
-      // Если уже достаточно близко — фиксируем точно и не трогаем
-      if (Math.abs(diff) > 0.0008) {
+      // Если уже достаточно близко — стоп, не трогаем
+      if (Math.abs(diff) > 0.002) {
         const factor = Math.abs(diff) > 0.08 ? 0.28 : 0.12;
         smoothProgress += diff * factor;
         if (video.readyState >= 2 && video.duration) {
-          const newTime = Math.min(smoothProgress * video.duration, video.duration - 0.001);
+          const newTime = smoothProgress * video.duration;
           if (Math.abs(newTime - video.currentTime) > 0.016) {
             video.currentTime = newTime;
           }
@@ -196,7 +196,7 @@ function MainPage({ tweaks }) {
             muted playsInline preload="auto"
             src="/assets/warehouse/hero-bg.mp4"
             onCanPlay={markReady}
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0, transform: "translateZ(0)", backfaceVisibility: "hidden" }}
           />
         )}
         {heroOverlay}
