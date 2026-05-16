@@ -134,8 +134,17 @@ function MainPage({ tweaks }) {
     };
 
     const init = () => {
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
+      // Wait until the full video is buffered before enabling scroll scrub
+      const startWhenBuffered = () => {
+        if (video.buffered.length > 0 &&
+            video.buffered.end(video.buffered.length - 1) >= video.duration - 0.1) {
+          window.addEventListener('scroll', onScroll, { passive: true });
+          onScroll();
+        } else {
+          video.addEventListener('progress', startWhenBuffered, { once: true });
+        }
+      };
+      startWhenBuffered();
     };
 
     if (video.readyState >= 1) init();
