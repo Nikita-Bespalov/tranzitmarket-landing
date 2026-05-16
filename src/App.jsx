@@ -83,19 +83,11 @@ function MainPage({ tweaks }) {
     return () => clearTimeout(t);
   }, []);
 
-  // На десктопе: не ждём видео — poster показывается сразу, лоадер снимаем через ~800мс
-  // На мобиле: ждём onLoad картинки, но не более 3 сек
+  // Fallback — скрываем лоадер через 5 сек в любом случае
   useEffect(() => {
-    if (!isMobile) {
-      // Desktop: снимаем лоадер как только минимальное время истечёт
-      const t = setTimeout(() => setVideoLoaded(true), 100);
-      return () => clearTimeout(t);
-    } else {
-      // Mobile fallback: max 3 sec
-      const t = setTimeout(() => { setVideoLoaded(true); setMinTimeDone(true); }, 3000);
-      return () => clearTimeout(t);
-    }
-  }, [isMobile]);
+    const t = setTimeout(() => { setVideoLoaded(true); setMinTimeDone(true); }, 5000);
+    return () => clearTimeout(t);
+  }, []);
 
   // Fade-out когда оба условия выполнены
   useEffect(() => {
@@ -190,7 +182,6 @@ function MainPage({ tweaks }) {
           <video
             ref={heroVideoRef}
             muted playsInline preload="auto"
-            poster="/assets/warehouse/hero-poster.jpg"
             src="/assets/warehouse/hero-bg.mp4"
             onCanPlay={markReady}
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
