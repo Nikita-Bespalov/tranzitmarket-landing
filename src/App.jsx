@@ -20,10 +20,20 @@ const DEFAULTS = {
   showStatsBand: true,
 };
 
-// ── Scroll to top on route change ──────────────────────────────────────────
+// ── Scroll to top on route change (с поддержкой хэш-якорей) ───────────────
 function ScrollToTop() {
-  const { pathname } = useLocation();
-  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    if (hash) {
+      // Небольшая задержка чтобы компонент успел отрендериться
+      setTimeout(() => {
+        const el = document.querySelector(hash);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 50);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
   return null;
 }
 
