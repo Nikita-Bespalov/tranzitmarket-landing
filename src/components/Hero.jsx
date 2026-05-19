@@ -2,10 +2,12 @@ import React from 'react';
 import { Button, Eyebrow, Breadcrumb, Photo, Section, Ic } from './Primitives';
 import { useIsMobile } from '../hooks/useIsMobile';
 import { usePromoCountdown } from '../hooks/usePromoCountdown';
+import { useModal } from '../context/ModalContext';
 
 export function OfferBanner() {
   const isMobile = useIsMobile();
   const promo = usePromoCountdown();
+  const openModal = useModal();
 
   // Mobile: compact single-row strip
   if (isMobile) {
@@ -52,7 +54,7 @@ export function OfferBanner() {
             {" "}— для новых клиентов
           </div>
           {/* Row 3: CTA */}
-          <Button size="sm" icon={<Ic.arrow/>} as="a" href="#contact" style={{ width: "100%", justifyContent: "center" }}>
+          <Button size="sm" icon={<Ic.arrow/>} onClick={openModal} style={{ width: "100%", justifyContent: "center" }}>
             Забронировать тариф
           </Button>
         </div>
@@ -117,7 +119,7 @@ export function OfferBanner() {
             <div style={{ fontSize: 11, color: "var(--fg-3)" }}>{promo.daysLabel}</div>
           </div>
         </div>
-        <Button size="md" icon={<Ic.arrow/>} as="a" href="#contact">Забронировать тариф</Button>
+        <Button size="md" icon={<Ic.arrow/>} onClick={openModal}>Забронировать тариф</Button>
       </div>
     </section>
   );

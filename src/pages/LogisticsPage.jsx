@@ -5,6 +5,7 @@ import { Contacts, Footer } from '../components/Contacts';
 import { Section, Eyebrow, Button, Ic } from '../components/Primitives';
 import { useIsMobile } from '../hooks/useIsMobile';
 import { usePromoCountdown } from '../hooks/usePromoCountdown';
+import { useModal } from '../context/ModalContext';
 
 const features = [
   {
@@ -51,6 +52,7 @@ const steps = [
 export function LogisticsPage() {
   const isMobile = useIsMobile();
   const promo = usePromoCountdown();
+  const openModal = useModal();
 
   return (
     <div>
@@ -142,7 +144,7 @@ export function LogisticsPage() {
                 {!isMobile && <div style={{ fontSize: 11, color: "var(--fg-3)" }}>{promo.daysLabel}</div>}
               </div>
             </div>
-            <Button size={isMobile ? "sm" : "md"} icon={<Ic.arrow/>} as="a" href="#contact"
+            <Button size={isMobile ? "sm" : "md"} icon={<Ic.arrow/>} onClick={openModal}
               style={isMobile ? { width: "100%", justifyContent: "center", marginTop: 4 } : {}}>
               Получить расчёт
             </Button>
@@ -170,7 +172,7 @@ export function LogisticsPage() {
               Собственный автопарк, карго из Китая, доставка по всему СНГ.
             </p>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 36 }}>
-              <Button size="lg" icon={<Ic.arrow/>} as="a" href="#contact">Получить расчёт</Button>
+              <Button size="lg" icon={<Ic.arrow/>} onClick={openModal}>Получить расчёт</Button>
               <Button size="lg" variant="secondary" as="a" href="tel:+79004669477">+7 (900) 466‑94‑77</Button>
             </div>
           </div>
