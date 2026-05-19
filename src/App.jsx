@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { useIsMobile } from './hooks/useIsMobile';
 import { Nav } from './components/Nav';
 import { OfferBanner, Hero, MarketplaceStrip, PromiseBand } from './components/Hero';
@@ -189,6 +190,21 @@ function MainPage({ tweaks }) {
 
   return (
     <div>
+      <Helmet>
+        <title>ТРАНЗИТМАРКЕТ · Фулфилмент для маркетплейсов в Пензе</title>
+        <meta name="description" content="Полный цикл фулфилмента для Wildberries, Ozon, Яндекс.Маркет. Приёмка, хранение, маркировка, упаковка и отгрузка. Склад в Пензе. Бесплатный вывоз, договор за 1 день." />
+        <link rel="canonical" href="https://transitmarket.ru/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://transitmarket.ru/" />
+        <meta property="og:title" content="ТРАНЗИТМАРКЕТ · Фулфилмент для маркетплейсов в Пензе" />
+        <meta property="og:description" content="Полный цикл фулфилмента для Wildberries, Ozon, Яндекс.Маркет. Склад в Пензе. Бесплатный вывоз, договор за 1 день." />
+        <meta property="og:image" content="https://transitmarket.ru/assets/og-image.jpg" />
+        <meta property="og:locale" content="ru_RU" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="ТРАНЗИТМАРКЕТ · Фулфилмент для маркетплейсов в Пензе" />
+        <meta name="twitter:description" content="Полный цикл фулфилмента для Wildberries, Ozon, Яндекс.Маркет. Склад в Пензе." />
+        <meta name="twitter:image" content="https://transitmarket.ru/assets/og-image.jpg" />
+      </Helmet>
       <Nav />
 
       {/* ── Hero block: static image on mobile, video scrub on desktop ── */}

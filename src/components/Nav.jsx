@@ -96,16 +96,22 @@ export function Nav() {
         {/* ── Desktop nav ── */}
         {!isMobile && (
           <nav style={{ display: "flex", alignItems: "center", gap: 4, marginLeft: 8 }}>
-            {links.map(([l, h]) => (
-              <a key={l} href={resolveHref(h)} style={{
-                padding: "8px 14px", borderRadius: 999, color: "var(--fg-2)",
-                fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 500,
-                textDecoration: "none", transition: "all 200ms",
-              }}
-              onMouseEnter={e => { e.currentTarget.style.color = "#fff"; e.currentTarget.style.background = "rgba(255,255,255,.04)"; }}
-              onMouseLeave={e => { e.currentTarget.style.color = "var(--fg-2)"; e.currentTarget.style.background = "transparent"; }}
-              >{l}</a>
-            ))}
+            {links.map(([l, h]) => {
+              const isActive = h.startsWith('/') && pathname === h;
+              return (
+                <a key={l} href={resolveHref(h)} style={{
+                  padding: "8px 14px", borderRadius: 999,
+                  color: isActive ? "#fff" : "var(--fg-2)",
+                  background: isActive ? "rgba(255,255,255,.07)" : "transparent",
+                  fontFamily: "Inter, sans-serif", fontSize: 14,
+                  fontWeight: isActive ? 600 : 500,
+                  textDecoration: "none", transition: "all 200ms",
+                }}
+                onMouseEnter={e => { e.currentTarget.style.color = "#fff"; e.currentTarget.style.background = "rgba(255,255,255,.07)"; }}
+                onMouseLeave={e => { e.currentTarget.style.color = isActive ? "#fff" : "var(--fg-2)"; e.currentTarget.style.background = isActive ? "rgba(255,255,255,.07)" : "transparent"; }}
+                >{l}</a>
+              );
+            })}
           </nav>
         )}
 

@@ -1,9 +1,11 @@
 import React from 'react';
 import { Button, Eyebrow, Breadcrumb, Photo, Section, Ic } from './Primitives';
 import { useIsMobile } from '../hooks/useIsMobile';
+import { usePromoCountdown } from '../hooks/usePromoCountdown';
 
 export function OfferBanner() {
   const isMobile = useIsMobile();
+  const promo = usePromoCountdown();
 
   // Mobile: compact single-row strip
   if (isMobile) {
@@ -33,7 +35,7 @@ export function OfferBanner() {
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <Ic.clock size={13} style={{ color: "var(--gold-400)" }}/>
-              <span style={{ fontFamily: "Manrope", fontWeight: 800, fontSize: 13, color: "#fff" }}>до 31 мая</span>
+              <span style={{ fontFamily: "Manrope", fontWeight: 800, fontSize: 13, color: "#fff" }}>{promo.label}</span>
             </div>
           </div>
           {/* Row 2: text */}
@@ -111,8 +113,8 @@ export function OfferBanner() {
         }}>
           <Ic.clock size={16}/>
           <div style={{ lineHeight: 1.2 }}>
-            <div style={{ fontFamily: "Manrope", fontWeight: 800, fontSize: 16, color: "#fff", letterSpacing: "-0.01em" }}>до 31 мая</div>
-            <div style={{ fontSize: 11, color: "var(--fg-3)" }}>осталось 34 дня</div>
+            <div style={{ fontFamily: "Manrope", fontWeight: 800, fontSize: 16, color: "#fff", letterSpacing: "-0.01em" }}>{promo.label}</div>
+            <div style={{ fontSize: 11, color: "var(--fg-3)" }}>{promo.daysLabel}</div>
           </div>
         </div>
         <Button size="md" icon={<Ic.arrow/>} as="a" href="#contact">Забронировать тариф</Button>

@@ -146,15 +146,33 @@ export function CallbackModal({ open, onClose }) {
                   type="tel"
                   placeholder="+7 (___) ___-__-__"
                   value={phone}
-                  onChange={e=>setPhone(e.target.value)}
+                  onChange={e => {
+                    let v = e.target.value.replace(/\D/g, '');
+                    if (v.startsWith('8')) v = '7' + v.slice(1);
+                    if (!v.startsWith('7')) v = '7' + v;
+                    v = v.slice(0, 11);
+                    let formatted = '+7';
+                    if (v.length > 1) formatted += ' (' + v.slice(1, 4);
+                    if (v.length >= 4) formatted += ') ' + v.slice(4, 7);
+                    if (v.length >= 7) formatted += '-' + v.slice(7, 9);
+                    if (v.length >= 9) formatted += '-' + v.slice(9, 11);
+                    setPhone(formatted);
+                  }}
                   required
                 />
               </div>
 
               {/* Consent */}
               <label style={{ display:'flex', alignItems:'flex-start', gap:10, cursor:'pointer', marginTop:4 }}>
-                <div
-                  onClick={()=>setAgreed(v=>!v)}
+                <input
+                  type="checkbox"
+                  checked={agreed}
+                  onChange={e => setAgreed(e.target.checked)}
+                  style={{ display: 'none' }}
+                  id="cb-agree"
+                />
+                <span
+                  onClick={() => setAgreed(v => !v)}
                   style={{
                     width:18, height:18, borderRadius:5, flexShrink:0, marginTop:1,
                     background: agreed ? 'linear-gradient(135deg,#E8CF82 0%,#CFA64A 100%)' : 'transparent',
@@ -162,9 +180,11 @@ export function CallbackModal({ open, onClose }) {
                     display:'flex', alignItems:'center', justifyContent:'center',
                     transition:'all 180ms', cursor:'pointer',
                   }}
+                  role="checkbox" aria-checked={agreed} tabIndex={0}
+                  onKeyDown={e => e.key === ' ' && setAgreed(v => !v)}
                 >
                   {agreed && <Ic.check size={11} style={{ color:'#0A0A0B', strokeWidth:3 }}/>}
-                </div>
+                </span>
                 <span style={{ fontSize:12.5, color:'#7A7A85', lineHeight:1.55 }}>
                   Соглашаюсь с{' '}
                   <a href="/privacy.html" target="_blank" style={{ color:'#CFA64A', textDecoration:'none', borderBottom:'1px solid rgba(207,166,74,.3)' }}

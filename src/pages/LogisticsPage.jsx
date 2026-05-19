@@ -1,8 +1,10 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Nav } from '../components/Nav';
 import { Contacts, Footer } from '../components/Contacts';
 import { Section, Eyebrow, Button, Ic } from '../components/Primitives';
 import { useIsMobile } from '../hooks/useIsMobile';
+import { usePromoCountdown } from '../hooks/usePromoCountdown';
 
 const features = [
   {
@@ -48,9 +50,21 @@ const steps = [
 
 export function LogisticsPage() {
   const isMobile = useIsMobile();
+  const promo = usePromoCountdown();
 
   return (
     <div>
+      <Helmet>
+        <title>Логистика · Перевозки и карго из Китая — ТРАНЗИТМАРКЕТ</title>
+        <meta name="description" content="Забор, перевозка и доставка грузов по СНГ. Карго из Китая, сборные грузы, страхование. Собственный автопарк. Бесплатный вывоз по Пензе. Расчёт за 2 часа." />
+        <link rel="canonical" href="https://transitmarket.ru/logistics" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://transitmarket.ru/logistics" />
+        <meta property="og:title" content="Логистика · Перевозки и карго из Китая — ТРАНЗИТМАРКЕТ" />
+        <meta property="og:description" content="Забор, перевозка и доставка грузов по СНГ. Карго из Китая, сборные грузы. Бесплатный вывоз по Пензе." />
+        <meta property="og:image" content="https://transitmarket.ru/assets/og-image.jpg" />
+        <meta property="og:locale" content="ru_RU" />
+      </Helmet>
       <Nav />
 
       {/* ── Hero ── */}
@@ -124,8 +138,8 @@ export function LogisticsPage() {
             }}>
               <Ic.clock size={isMobile ? 13 : 16} style={{ color: "var(--gold-400)" }}/>
               <div style={{ lineHeight: 1.2 }}>
-                <div style={{ fontFamily: "Manrope", fontWeight: 800, fontSize: isMobile ? 13 : 16, color: "#fff" }}>до 31 мая</div>
-                {!isMobile && <div style={{ fontSize: 11, color: "var(--fg-3)" }}>осталось 16 дней</div>}
+                <div style={{ fontFamily: "Manrope", fontWeight: 800, fontSize: isMobile ? 13 : 16, color: "#fff" }}>{promo.label}</div>
+                {!isMobile && <div style={{ fontSize: 11, color: "var(--fg-3)" }}>{promo.daysLabel}</div>}
               </div>
             </div>
             <Button size={isMobile ? "sm" : "md"} icon={<Ic.arrow/>} as="a" href="#contact"
