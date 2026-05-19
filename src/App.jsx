@@ -241,10 +241,10 @@ function MainPage({ tweaks }) {
       <Footer />
 
       <div className="fab-stack">
-        <a href="#" className="fab" title="MAX">
+        <a href="javascript:void(0)" className="fab" title="MAX">
           <img src="/assets/icon-max.png" alt="MAX" className="sq" />
         </a>
-        <a href="#" className="fab" title="Telegram">
+        <a href="javascript:void(0)" className="fab" title="Telegram">
           <img src="/assets/icon-telegram.png" alt="Telegram" />
         </a>
       </div>

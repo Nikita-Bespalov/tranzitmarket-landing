@@ -98,8 +98,8 @@ export function Contacts() {
             </ContactRow>
           </div>
           <div style={{ marginTop: 32, paddingTop: 24, borderTop: "1px solid var(--border-1)", display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <a href="#" style={msgPill}><img src="/assets/icon-telegram.png" alt="" style={{ width: 22, height: 22, borderRadius: 999 }}/>Telegram</a>
-            <a href="#" style={msgPill}><img src="/assets/icon-max.png" alt="" style={{ width: 22, height: 22, borderRadius: 6 }}/>MAX</a>
+            <a href="javascript:void(0)" style={msgPill}><img src="/assets/icon-telegram.png" alt="" style={{ width: 22, height: 22, borderRadius: 999 }}/>Telegram</a>
+            <a href="javascript:void(0)" style={msgPill}><img src="/assets/icon-max.png" alt="" style={{ width: 22, height: 22, borderRadius: 6 }}/>MAX</a>
           </div>
         </div>
 

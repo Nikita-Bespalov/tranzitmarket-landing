@@ -119,10 +119,10 @@ export function Nav() {
         {!isMobile && (
           <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 14 }}>
             <div style={{ display: "flex", gap: 6 }}>
-              <a href="#" title="Telegram" style={iconBtn}>
+              <a href="javascript:void(0)" title="Telegram" style={iconBtn}>
                 <img src="/assets/icon-telegram.png" alt="" style={{ width: 22, height: 22, borderRadius: 999 }}/>
               </a>
-              <a href="#" title="MAX" style={iconBtn}>
+              <a href="javascript:void(0)" title="MAX" style={iconBtn}>
                 <img src="/assets/icon-max.png" alt="" style={{ width: 22, height: 22, borderRadius: 6 }}/>
               </a>
             </div>
@@ -197,8 +197,8 @@ export function Nav() {
               >{l}</a>
             ))}
             <div style={{ padding: "16px 24px 4px", display: "flex", gap: 10 }}>
-              <a href="#" style={iconBtn}><img src="/assets/icon-telegram.png" alt="Telegram" style={{ width: 22, height: 22, borderRadius: 999 }}/></a>
-              <a href="#" style={iconBtn}><img src="/assets/icon-max.png" alt="MAX" style={{ width: 22, height: 22, borderRadius: 6 }}/></a>
+              <a href="javascript:void(0)" style={iconBtn}><img src="/assets/icon-telegram.png" alt="Telegram" style={{ width: 22, height: 22, borderRadius: 999 }}/></a>
+              <a href="javascript:void(0)" style={iconBtn}><img src="/assets/icon-max.png" alt="MAX" style={{ width: 22, height: 22, borderRadius: 6 }}/></a>
             </div>
             <div style={{ padding: "8px 24px 12px" }}>
               <Button size="md" as="a" href={resolveHref("#contact")} style={{ width: "100%", justifyContent: "center" }}>
